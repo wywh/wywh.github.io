@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            树莓派 4B Ubuntu 19 使用 nginx-http-flv-module 搭建直播服务 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/brands.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","logo":"/images/logo.svg","favicon":"/images/logo.svg","avatar":"/images/avatar.svg","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving.","font_color":null,"hitokoto":{"enable":false}},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":false,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.5.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"};
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="logo-title" href="/">
+               Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">树莓派 4B Ubuntu 19 使用 nginx-http-flv-module 搭建直播服务</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Keep Team</span>
+                            
+                                <span class="author-label">Lv2</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2020-03-07 20:23:45</span>
+        <span class="mobile">2020-03-07 20:23</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2021-03-15 08:41:18</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                <p>直播协议有 RTMP, HLS, HttpFLV 等，选择基于 <a target="_blank" rel="noopener" href="https://github.com/arut/nginx-rtmp-module">nginx-rtmp-module</a> 的流媒体服务器 <a target="_blank" rel="noopener" href="https://github.com/winshining/nginx-http-flv-module">nginx-http-flv-module</a></p>
+<h2 id="内存虚拟硬盘"><a href="#内存虚拟硬盘" class="headerlink" title="内存虚拟硬盘"></a>内存虚拟硬盘</h2><h2 id="Nginx-安装-nginx-http-flv-module-模块"><a href="#Nginx-安装-nginx-http-flv-module-模块" class="headerlink" title="Nginx 安装 nginx-http-flv-module 模块"></a>Nginx 安装 <a target="_blank" rel="noopener" href="https://github.com/winshining/nginx-http-flv-module">nginx-http-flv-module</a> 模块</h2><p>安装 Nginx 和添加模块方法参考</p>
+<a href="/2020/02/28/piNginxShare/" title="树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务">树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务</a>
+
+<p>下载  <a target="_blank" rel="noopener" href="https://github.com/winshining/nginx-http-flv-module">nginx-http-flv-module</a> 模块至 ~&#x2F;nginxmodules</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/nginxmodules</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/winshining/nginx-http-flv-module.git</span><br></pre></td></tr></table></figure>
+
+<p>cd 至下载解压的 Nginx 文件夹编译 Nginx，如果已安装 Nginx，用 Nginx -V 查看并复制安装命令后添加 –add-module&#x3D;&#x2F;home&#x2F;ubuntu&#x2F;nginxmodules&#x2F;nginx-http-flv-module</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./configure prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-compat --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_geoip_module=dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_xslt_module=dynamic --with-stream=dynamic --with-stream_ssl_module --with-mail=dynamic --with-mail_ssl_module --add-module=/home/ubuntu/nginxmodules/nginx-http-flv-module</span><br></pre></td></tr></table></figure>
+
+<p>由于 gcc 版本问题编译时可能会报错，加上参数忽略</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo make CFLAGS=<span class="string">&#x27;-Wno-implicit-fallthrough&#x27;</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>末尾加入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">rtmp &#123;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line"></span><br><span class="line">        listen 1935;</span><br><span class="line"></span><br><span class="line">        chunk_size 4000;</span><br><span class="line">        </span><br><span class="line">        server_name 192.168.0.10;</span><br><span class="line">        # teststream 的推流和播放路径 rtmp://192.168.0.10:1935/rtmpapp/teststream</span><br><span class="line">        application rtmpapp &#123;</span><br><span class="line">            live on;</span><br><span class="line">        &#125;</span><br><span class="line">        # HLS</span><br><span class="line">        # For HLS to work please create a directory in tmpfs (/tmp/hls here)</span><br><span class="line">        # for the fragments. The directory contents is served via HTTP (see</span><br><span class="line">        # http&#123;&#125; section in config)</span><br><span class="line">        #</span><br><span class="line">        # Incoming stream must be in H264/AAC. For iPhones use baseline H264</span><br><span class="line">        # profile (see ffmpeg example).</span><br><span class="line">        # This example creates RTMP stream from movie ready for HLS:</span><br><span class="line">        #</span><br><span class="line">        # ffmpeg -loglevel verbose -re -i movie.avi  -vcodec libx264</span><br><span class="line">        #    -vprofile baseline -acodec libmp3lame -ar 44100 -ac 1</span><br><span class="line">        #    -f flv rtmp://localhost:1935/hls/movie</span><br><span class="line">        #</span><br><span class="line">        # If you need to transcode live stream use &#x27;exec&#x27; feature.</span><br><span class="line">        #</span><br><span class="line">        # teststream 的推流路径 rtmp://192.168.0.10:1935/hlsapp/teststream</span><br><span class="line">        application hlsapp &#123;</span><br><span class="line">            live on;</span><br><span class="line">            hls on;</span><br><span class="line">            hls_path /memtmp/hls;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # MPEG-DASH is similar to HLS</span><br><span class="line">        # teststream 的推流路径 rtmp://192.168.0.10:1935/dashapp/teststream</span><br><span class="line">        application dashapp &#123;</span><br><span class="line">            live on;</span><br><span class="line">            dash on;</span><br><span class="line">            dash_path /memtmp/dash;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可直接在 &#x2F;etc&#x2F;nginx&#x2F;nginx.conf 的 http 块中加入，如果块中有 include conf.d&#x2F; 则可以在 conf.d&#x2F; 新建文件 live.conf</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/conf.d/live.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        # 监听端口</span><br><span class="line">        listen [::]:8080 ssl http2;  </span><br><span class="line">        server_name example.com;                                            </span><br><span class="line">        #证书文件</span><br><span class="line">        ssl_certificate /etc/ssl/nginx/piserver.crt;</span><br><span class="line">        #私钥文件</span><br><span class="line">        ssl_certificate_key /etc/ssl/nginx/piserver.key; </span><br><span class="line">        #设置长连接</span><br><span class="line">        keepalive_timeout 70;</span><br><span class="line">        #HSTS策略</span><br><span class="line">        add_header Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot; always;  </span><br><span class="line">        #定义算法</span><br><span class="line">        ssl_ciphers &quot;EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS !RC4&quot;;</span><br><span class="line">        #减少点击劫持</span><br><span class="line">        add_header X-Frame-Options DENY;</span><br><span class="line">        #禁止服务器自动解析资源类型</span><br><span class="line">        add_header X-Content-Type-Options nosniff;</span><br><span class="line">        #防XSS攻擊</span><br><span class="line">        add_header X-Xss-Protection 1;</span><br><span class="line">        </span><br><span class="line">        # HttpFLV 协议播放 </span><br><span class="line">        # 播放 URL https://example.com:8080/httpflv?port=1935&amp;app=rtmpapp&amp;stream=teststream</span><br><span class="line">        location /httpflv &#123;</span><br><span class="line">            flv_live on;</span><br><span class="line">            add_header &#x27;Cache-Control&#x27; &#x27;no-cache&#x27;;</span><br><span class="line">            # 允许跨域</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Origin&#x27; &#x27;*&#x27;;</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        # hls 协议播放</span><br><span class="line">        # 播放 URL https://example.com:8080/hls/teststream.m3u8</span><br><span class="line">        location /hls &#123;</span><br><span class="line">            types &#123;</span><br><span class="line">                application/vnd.apple.mpegurl m3u8;</span><br><span class="line">                video/mp2t ts;</span><br><span class="line">            &#125;</span><br><span class="line">            # 视频文件地址</span><br><span class="line">            alias /memtmp/hls;</span><br><span class="line">            add_header &#x27;Cache-Control&#x27; &#x27;no-cache&#x27;;</span><br><span class="line">            # 允许跨域</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Origin&#x27; &#x27;*&#x27;;</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">        # dash 协议播放</span><br><span class="line">        # 播放 URL https://example.com:8080/dash/teststream.mpd</span><br><span class="line">        location /dash &#123;</span><br><span class="line">            # 视频文件地址</span><br><span class="line">            alias /memtmp/hls;</span><br><span class="line">            add_header &#x27;Cache-Control&#x27; &#x27;no-cache&#x27;;</span><br><span class="line">            # 允许跨域</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Origin&#x27; &#x27;*&#x27;;</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>使用手机 app Larix Broadcaster 同时推流 RTMP 和 HLS，VLC 播放成功，其他方式有待测试</p>
+<h2 id="内存挂载成硬盘作为缓存"><a href="#内存挂载成硬盘作为缓存" class="headerlink" title="内存挂载成硬盘作为缓存"></a>内存挂载成硬盘作为缓存</h2><p> 为防止 HLS 缓存大量读写影响存储卡寿命，可以用把部分内存虚拟成硬盘，缓存数据放在内存中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将内存分配到 /memtmp，最大分配 200MB</span><br><span class="line">tmpfs    /memtmp      tmpfs  size=200m    0   0</span><br></pre></td></tr></table></figure>
+
+<p>重启后生效<br>测试</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/memtmp/test bs=8k count=10000 <span class="comment">#553 MB/s</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/memtmp/test bs=8k count=10000 of=/dev/null  <span class="comment">#1.4 GB/s</span></span><br></pre></td></tr></table></figure>
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2020/03/08/piQBT/"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 安装 qBittorrent 作为下载机</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2020/03/06/piWifiHotSpot/"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 开启 Wi-Fi 热点并搭建透明代理网关</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2020</span> -
+            
+            2022
+            
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/">Keep Team</a>
+            
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.5.1</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

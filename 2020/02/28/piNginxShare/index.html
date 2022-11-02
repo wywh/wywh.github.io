@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/brands.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","logo":"/images/logo.svg","favicon":"/images/logo.svg","avatar":"/images/avatar.svg","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving.","font_color":null,"hitokoto":{"enable":false}},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":false,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.5.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"};
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="logo-title" href="/">
+               Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Keep Team</span>
+                            
+                                <span class="author-label">Lv2</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2020-02-28 21:03:25</span>
+        <span class="mobile">2020-02-28 21:03</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2021-03-15 08:41:18</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                <p>树莓派需要进行公网的文件分享，对比各种文件共享协议后发现 Samba 跨平台较好，但只适合局域网，FTP 不安全，SFTP 不适合做文件服务器，所以选择 WebDAV + Samba 满足各种需求，先安装 WebDAV</p>
+<h2 id="安装-Nginx-并添加模块"><a href="#安装-Nginx-并添加模块" class="headerlink" title="安装 Nginx 并添加模块"></a>安装 Nginx 并添加模块</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>通过 Nginx 插件方式安装，Nginx 安装需要编译，为实现 WebDAV 的 PROPFIND,OPTIONS,LOCK,UNLOCK 功能可以下载 nginx-dav-ext-module</p>
+<p>Nginx 下载：<a target="_blank" rel="noopener" href="https://nginx.org/en/download.html">https://nginx.org/en/download.html</a></p>
+<p>nginx-dav-ext-module:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/arut/nginx-dav-ext-module.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>可先卸载 apt 安装的 Nginx</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop nginx</span><br><span class="line">sudo apt-get --purge remove nginx</span><br><span class="line">sudo apt-get --purge remove nginx-common</span><br><span class="line">sudo apt-get --purge remove nginx-core</span><br></pre></td></tr></table></figure>
+
+<p>防止出现 C compiler cc is not found, the HTTP rewrite module requires the PCRE library，the HTTP gzip module requires the zlib library，the HTTP XSLT module requires the libxml2&#x2F;libxslt<br>libraries 等错误</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc libpcre3 libpcre3-dev openssl libssl-dev zlib1g-dev libxml2-dev libxslt1-dev build-essential libgd-dev geoip-bin libgeoip-dev libgeoip1</span><br></pre></td></tr></table></figure>
+
+<p>configure 参数详细文档：<a target="_blank" rel="noopener" href="https://nginx.org/en/docs/configure.html">https://nginx.org/en/docs/configure.html</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果已经安装 Nginx 用 nginx -V 获取其他模块参数</span></span><br><span class="line"><span class="comment"># 同时安装 Http/2, SSL 等支持</span></span><br><span class="line"><span class="comment"># 模块存放于 ~/nginxmodules/</span></span><br><span class="line"><span class="comment"># --with-threads 配置线程池</span></span><br><span class="line">./configure  --prefix=/usr/share/nginx --conf-path=/etc/nginx/nginx.conf --http-log-path=/var/log/nginx/access.log --error-log-path=/var/log/nginx/error.log --lock-path=/var/lock/nginx.lock --pid-path=/run/nginx.pid --modules-path=/usr/lib/nginx/modules --http-client-body-temp-path=/var/lib/nginx/body --http-fastcgi-temp-path=/var/lib/nginx/fastcgi --http-proxy-temp-path=/var/lib/nginx/proxy --http-scgi-temp-path=/var/lib/nginx/scgi --http-uwsgi-temp-path=/var/lib/nginx/uwsgi --with-debug --with-compat --with-pcre-jit --with-http_ssl_module --with-http_stub_status_module --with-http_realip_module --with-http_auth_request_module --with-http_v2_module --with-http_dav_module --with-http_slice_module --with-threads --with-http_addition_module --with-http_geoip_module=dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_sub_module --with-http_xslt_module=dynamic --with-stream=dynamic --with-stream_ssl_module --with-mail=dynamic --with-mail_ssl_module --add-module=/home/ubuntu/nginxmodules/nginx-dav-ext-module</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">nginx path prefix: &quot;/usr/local/nginx&quot;</span><br><span class="line">nginx binary file: &quot;/usr/local/nginx/sbin/nginx&quot;</span><br><span class="line">nginx modules path: &quot;/usr/local/nginx/modules&quot;</span><br><span class="line">nginx configuration prefix: &quot;/usr/local/nginx/conf&quot;</span><br><span class="line">nginx configuration file: &quot;/usr/local/nginx/conf/nginx.conf&quot;</span><br><span class="line">nginx pid file: &quot;/usr/local/nginx/logs/nginx.pid&quot;</span><br><span class="line">nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;</span><br><span class="line">nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;</span><br><span class="line">nginx http client request body temporary files: &quot;client_body_temp&quot;</span><br><span class="line">nginx http proxy temporary files: &quot;proxy_temp&quot;</span><br><span class="line">nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;</span><br><span class="line">nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;</span><br><span class="line">nginx http scgi temporary files: &quot;scgi_temp&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo make</span><br><span class="line"><span class="comment"># 如果是新增则不要 install，可用 make upgrade 或手动替换 /usr/sbin/nginx</span></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Nginx-https-提供自签名证书并设置密码"><a href="#Nginx-https-提供自签名证书并设置密码" class="headerlink" title="Nginx https 提供自签名证书并设置密码"></a>Nginx https 提供自签名证书并设置密码</h2><p>由于是个人服务，自签名证书即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">openssl req -newkey rsa:2048 -nodes -keyout piserver.key -x509 -days 3650 -out piserver.crt</span><br><span class="line">sudo <span class="built_in">mkdir</span> /etc/ssl/nginx</span><br><span class="line">sudo <span class="built_in">cp</span> pi* /etc/ssl/nginx</span><br></pre></td></tr></table></figure>
+<p>使用 Apache 密码生成工具生成密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install  apache2-utils</span><br><span class="line">sudo htpasswd -c /etc/ssl/nginx/hapasswd username</span><br></pre></td></tr></table></figure>
+<h2 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+<p>http 块中添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include /etc/nginx/conf.d/*.conf;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> /etc/nginx/conf.d</span><br><span class="line">sudo vim /etc/nginx/conf.d/piserver.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        # 监听端口</span><br><span class="line">        listen [::]:8081 ssl http2;</span><br><span class="line">        # 添加自己的域名</span><br><span class="line">        server_name ; </span><br><span class="line">        #证书文件</span><br><span class="line">        ssl_certificate /etc/ssl/nginx/piserver.crt; </span><br><span class="line">        #私钥文件</span><br><span class="line">        ssl_certificate_key /etc/ssl/nginx/piserver.key; </span><br><span class="line">        #设置长连接</span><br><span class="line">        keepalive_timeout 70;</span><br><span class="line">        #HSTS策略</span><br><span class="line">        add_header Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot; always;  </span><br><span class="line">        #定义算法</span><br><span class="line">        ssl_ciphers &quot;EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS !RC4&quot;;</span><br><span class="line">        #减少点击劫持</span><br><span class="line">        add_header X-Frame-Options DENY;</span><br><span class="line">        #禁止服务器自动解析资源类型</span><br><span class="line">        add_header X-Content-Type-Options nosniff;</span><br><span class="line">        #防XSS攻擊</span><br><span class="line">        add_header X-Xss-Protection 1;</span><br><span class="line">        location /dav/ &#123;</span><br><span class="line">                # 监听端口</span><br><span class="line">                # WebDAV 根目录</span><br><span class="line">                alias /mnt/;</span><br><span class="line">                autoindex on;</span><br><span class="line">                autoindex_exact_size on; </span><br><span class="line">                # 客户端请求体临时文件夹</span><br><span class="line">            	client_body_temp_path  /mnt/client_body_temp;</span><br><span class="line">            # 允许 HTTP 和 WebDAV 方法</span><br><span class="line">                dav_methods PUT DELETE MKCOL COPY MOVE;</span><br><span class="line">            # 允许其他方法，提供锁防止多用户同时写数据</span><br><span class="line">                dav_ext_methods PROPFIND OPTIONS LOCK UNLOCK;</span><br><span class="line">            # 允许创建中间目录</span><br><span class="line">                create_full_put_path  on;</span><br><span class="line">            # 新文件和文件夹的组访问权限，设置后会忽略 user 权限</span><br><span class="line">                dav_access group:rw  all:r;</span><br><span class="line">            # 设置 Nginx 认证</span><br><span class="line">                auth_basic &quot;Authorized Users Only&quot;;</span><br><span class="line">                auth_basic_user_file /etc/ssl/nginx/htpasswd;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="启动-Nginx"><a href="#启动-Nginx" class="headerlink" title="启动 Nginx"></a>启动 Nginx</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">ln</span> -s /usr/share/nginx/sbin/nginx /usr/sbin/nginx</span><br><span class="line">sudo vim /lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=The NGINX HTTP and reverse proxy server</span><br><span class="line">After=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/run/nginx.pid</span><br><span class="line">ExecStartPre=/usr/sbin/nginx -t</span><br><span class="line">ExecStart=/usr/sbin/nginx</span><br><span class="line">ExecReload=/usr/sbin/nginx -s reload</span><br><span class="line">ExecStop=/bin/kill -s QUIT $MAINPID</span><br><span class="line">PrivateTmp=true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果提示 mkdir() &quot;/var/lib/nginx/body 失败</span></span><br><span class="line">sudo <span class="built_in">mkdir</span> /var/lib/nginx</span><br><span class="line">sudo <span class="built_in">chown</span> -R www-data:www-data /var/lib/nginx</span><br><span class="line">sudo systemctl start nginx</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> nginx</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程访问-WebDAV"><a href="#远程访问-WebDAV" class="headerlink" title="远程访问 WebDAV"></a>远程访问 WebDAV</h2><p>浏览器可直接访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://domain:port/dav/ </span><br></pre></td></tr></table></figure>
+
+<p>Windows 使用 RaiDrive 挂载</p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2020/02/28/piUFW/"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2020/02/27/piInit/"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B 无显示器安装配置 64 位 Ubuntu Server 19.10.1</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2020</span> -
+            
+            2022
+            
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/">Keep Team</a>
+            
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.5.1</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

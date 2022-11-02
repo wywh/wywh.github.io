@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/brands.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","logo":"/images/logo.svg","favicon":"/images/logo.svg","avatar":"/images/avatar.svg","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving.","font_color":null,"hitokoto":{"enable":false}},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":false,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.5.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"};
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="logo-title" href="/">
+               Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Keep Team</span>
+                            
+                                <span class="author-label">Lv2</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2020-03-05 23:01:09</span>
+        <span class="mobile">2020-03-05 23:01</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2021-04-08 10:39:50</span>
+    </span>
+    
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                <p>树莓派上运行 DoH 客户端，加密局域网设备的 DNS 请求，为下一步将树莓派开启热点，作为网关运行透明代理服务作准备</p>
+<h1 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h1><p>Linux 的 DNS 服务器由 &#x2F;etc&#x2F;resolv.conf 文件指定，Ubuntu 18.04+ 的 DNS 和桥接等功能默认在 netplan 设置并由 systemd-resolved 管理，这个程序会在 127.0.0.53:53 运行一个 DNS 服务并在每次开机时修改 resolv.conf，所以不能直接修改 resolv.conf 来改变 DNS 服务器。完成后的效果：</p>
+<ul>
+<li>dnscrypt-proxy 使用 DoH 请求 Cloudflare 的 DoH 服务并监听 127.0.0.1:53 和树莓派在局域网上的地址</li>
+<li>用 netplan 将本地 DNS 服务器指向 127.0.0.1:53</li>
+</ul>
+<h1 id="安装运行-dnscrypt-proxy"><a href="#安装运行-dnscrypt-proxy" class="headerlink" title="安装运行 dnscrypt-proxy"></a>安装运行 dnscrypt-proxy</h1><h3 id="安装-2-x-版本-dnscrypt-proxy"><a href="#安装-2-x-版本-dnscrypt-proxy" class="headerlink" title="安装 2.x 版本 dnscrypt-proxy"></a>安装 2.x 版本 dnscrypt-proxy</h3><p>Ubuntu 18.10 + 的 APT 源已自带但配置复杂，所以直接下载</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jedisct1/dnscrypt-proxy/releases/latest">https://github.com/jedisct1/dnscrypt-proxy/releases/latest</a></p>
+<p>解压后复制 dnscrypt-proxy 到 &#x2F;usr&#x2F;local&#x2F;bin</p>
+<p>修改配置加入 Cloudflare ipv6 解析，监听地址为本地、局域网、后续开启热点的地址</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可将默认配置复制后修改</span></span><br><span class="line">sudo vim /etc/dnscrypt-proxy/dnscrypt-proxy.toml </span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server_names = [&#x27;cloudflare&#x27;, &#x27;cloudflare-ipv6&#x27;]</span><br><span class="line">listen_addresses = [&#x27;127.0.0.1:53&#x27;,&#x27;192.168.0.100:53&#x27;,&#x27;192.168.10.1:53&#x27;,&#x27;[::1]:53&#x27;]</span><br><span class="line">doh_servers = true</span><br><span class="line"># 设置代理</span><br><span class="line">proxy = &#x27;socks5://127.0.0.1:9050&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>检查</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml </span><br><span class="line"><span class="comment"># 树莓派执行</span></span><br><span class="line">dig google.com @127.0.0.1 | grep SERVER</span><br><span class="line"><span class="comment"># 在局域网中其他电脑执行</span></span><br><span class="line">dig google.com @192.168.0.10 | grep SERVER</span><br></pre></td></tr></table></figure>
+
+<p>返回结果说明 dnscrypt-proxy 能正常解析并监听</p>
+<h3 id="设置开机运行"><a href="#设置开机运行" class="headerlink" title="设置开机运行"></a>设置开机运行</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/dnscrypt-proxy.service</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=dnscrypt-proxy</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start dnscrypt-proxy.service</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> dnscrypt-proxy.service</span><br></pre></td></tr></table></figure>
+
+<h1 id="修改-DNS-服务器地址"><a href="#修改-DNS-服务器地址" class="headerlink" title="修改 DNS 服务器地址"></a>修改 DNS 服务器地址</h1><p>成功后即可将其他电脑或路由器的 DNS 改为树莓派地址</p>
+<p>Ubuntu 19 通过 netplan 修改 DNS 地址，可选择同时指定 IPv6 DNS 地址</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/netplan/*.yaml /etc/netplan/*.yaml.bak.bak</span><br><span class="line">sudo vim /etc/netplan/*.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">network:</span><br><span class="line">    ethernets:</span><br><span class="line">        eth0:</span><br><span class="line">            dhcp4: no  </span><br><span class="line">            optional: true</span><br><span class="line">            addresses:</span><br><span class="line">                - 192.168.0.10/24</span><br><span class="line">                - &quot;fe80::dea6:32ff:fe24:fc57/24&quot;</span><br><span class="line">            gateway4: 192.168.0.1</span><br><span class="line">            nameservers:</span><br><span class="line">                    addresses: [127.0.0.1, 119.29.29.29, &quot;::1&quot;, &quot;2400:3200::1&quot;]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo netplan try</span><br></pre></td></tr></table></figure>
+
+<p>检查</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">resolvectl</span><br></pre></td></tr></table></figure>
+
+<p>eth0 中可以找到手动添加的 DNS</p>
+
+            </div>
+
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                               rel="prev"
+                               href="/2020/03/06/piWifiHotSpot/"
+                            >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                                <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 开启 Wi-Fi 热点并搭建透明代理网关</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2020/03/03/piSamba/"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 安装 Samba 在局域网共享文件</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2020</span> -
+            
+            2022
+            
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/">Keep Team</a>
+            
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.5.1</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>
