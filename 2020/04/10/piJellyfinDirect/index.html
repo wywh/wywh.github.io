@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B + Ubuntu 19 用 UFW 管理防火墙 |
+            树莓派 4B Ubuntu 20.04 64bit 直接安装 Jellyfin 并开启硬件加速 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 20.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
             </div>
 
             
@@ -156,13 +156,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-02-28 21:04:38</span>
-        <span class="mobile">2020-02-28 21:04</span>
+        <span class="pc">2020-04-10 19:05:56</span>
+        <span class="mobile">2020-04-10 19:05</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2021-04-12 08:09:07</span>
     </span>
     
     
@@ -183,7 +183,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
+                        <a href="/tags/rraspberry-pi/">rraspberry pi</a>&nbsp;
                     </li>
                 
             </ul>
@@ -202,13 +202,24 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>Linux 真正的防火墙是 iptables，<a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/UFW">UFW</a> (Uncomplicated Firewall) </p>
-<p>是为 Ubuntu 开发的 iptables 管理器，Ubuntu 19.10 自带版本 0.36-1ubuntu3</p>
-<p>UFW 默认关闭，启用前打开 ssh 端口</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow ssh/tcp</span><br><span class="line">sudo ufw logging on</span><br></pre></td></tr></table></figure>
-<p>UFW 默认阻止传入，允许传出</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+                <h2 id="安装-Jellyfin"><a href="#安装-Jellyfin" class="headerlink" title="安装 Jellyfin"></a>安装 Jellyfin</h2><p>按官方教程安装</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://jellyfin.org/docs/general/administration/installing.html#ubuntu" >https://jellyfin.org/docs/general/administration/installing.html#ubuntu<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="硬件加速（待解决）"><a href="#硬件加速（待解决）" class="headerlink" title="硬件加速（待解决）"></a>硬件加速（待解决）</h2><p>官方教程的 h264_omx 不支持 64 位系统，使用树莓派硬件支持的 h264_v4l2m2m</p>
+<p>在 Jellyfin 仪表板的“播放”选项卡上的“硬件加速”选择 Exynos V4L2 MFC</p>
+<p>修改 GPU 显存</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /boot/firmware/config.txt</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpu_mem=256</span><br></pre></td></tr></table></figure>
+
+<p>添加权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG video jellyfin</span><br><span class="line">sudo systemctl restart jellyfin</span><br></pre></td></tr></table></figure>
+
+<p>目前存在问题</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/jellyfin/jellyfin/issues/4892" >https://github.com/jellyfin/jellyfin/issues/4892<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="客户端播放设置"><a href="#客户端播放设置" class="headerlink" title="客户端播放设置"></a>客户端播放设置</h2><p>客户端安装 kodi 与 jellyfin for kodi 插件</p>
+<p>在 jellyfin 插件设置的 playback 中关闭 force http playback，提高 max stream bitrate</p>
+<p>kodi 空间音效设置</p>
+<p>kodi 设置 - system - audio，打开 standard 模式，打开 audio passthrough 中 allow passthrough</p>
 
             </div>
 
@@ -218,7 +229,7 @@
                 <ul class="post-tags-box">
                     
                         <li class="tag-item">
-                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
+                            <a href="/tags/rraspberry-pi/">#rraspberry pi</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -230,13 +241,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2020/02/28/piHDD/"
+                               href="/2021/03/16/piNewDisk/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B 连接硬盘并自动挂载</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 20 挂载新硬盘</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                             </a>
@@ -246,10 +257,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piNginxShare/"
+                               href="/2020/03/10/piJellyfin/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 用 Docker 安装 Jellyfin 作为媒体中心</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

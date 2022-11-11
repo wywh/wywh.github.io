@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B + Ubuntu 19 用 UFW 管理防火墙 |
+            树莓派 4B Ubuntu 22.04 使用 Calibre + Calibre-Web 搭建电子书库 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 22.04 使用 Calibre + Calibre-Web 搭建电子书库</span>
             </div>
 
             
@@ -156,38 +156,16 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-02-28 21:04:38</span>
-        <span class="mobile">2020-02-28 21:04</span>
+        <span class="pc">2022-11-05 16:43:36</span>
+        <span class="mobile">2022-11-05 16:43</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-06 07:09:19</span>
     </span>
     
     
-        <span class="article-categories article-meta-item">
-            <i class="fas fa-folder"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -202,26 +180,55 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>Linux 真正的防火墙是 iptables，<a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/UFW">UFW</a> (Uncomplicated Firewall) </p>
-<p>是为 Ubuntu 开发的 iptables 管理器，Ubuntu 19.10 自带版本 0.36-1ubuntu3</p>
-<p>UFW 默认关闭，启用前打开 ssh 端口</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow ssh/tcp</span><br><span class="line">sudo ufw logging on</span><br></pre></td></tr></table></figure>
-<p>UFW 默认阻止传入，允许传出</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+                <h2 id="安装-Calibre"><a href="#安装-Calibre" class="headerlink" title="安装 Calibre"></a>安装 Calibre</h2><p>官方不推荐使用 apt 下载，使用官方命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -v &amp;&amp; wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are missing the system library libEGL.so.1. Try installing packages such as libegl1 and libopengl0</span><br></pre></td></tr></table></figure>
+<p>安装依赖</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt install -y libegl1 libgl1-mesa-glx libopengl0</span><br></pre></td></tr></table></figure>
+
+<p>重新执行安装命令，Calibre 被安装至 &#x2F;opt&#x2F;calibre</p>
+<p>如果下载速度太慢可将事先手动下载安装包移至 &#x2F;tmp&#x2F;calibre-installer-cache</p>
+<p>创建 Calibre 书库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> calibre-library</span><br><span class="line">calibredb add *.mobi --with-library calibre-library/</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="安装-Calibre-Web"><a href="#安装-Calibre-Web" class="headerlink" title="安装 Calibre-Web"></a>安装 Calibre-Web</h2><p>使用 docker 安装 linuxserver&#x2F;calibre-web 镜像</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://docs.linuxserver.io/images/docker-calibre-web" >https://docs.linuxserver.io/images/docker-calibre-web<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull lscr.io/linuxserver/calibre-web:latest</span><br></pre></td></tr></table></figure>
+
+<p>新建 clibre-web 文件夹</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> /usr/local/share/calibre-web/</span><br></pre></td></tr></table></figure>
+<p>创建容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d \</span><br><span class="line">  --name=calibre-web \</span><br><span class="line">  -e PUID=1000 \</span><br><span class="line">  -e PGID=1000 \</span><br><span class="line">  -e TZ=Asia/Shanghai \</span><br><span class="line">  -p 8083:8083 \</span><br><span class="line">  -v /usr/local/share/calibre-web:/config \</span><br><span class="line">  -v /path/to/calibre/library:/books \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  lscr.io/linuxserver/calibre-web:latest</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Volume-Mappings-v"><a href="#Volume-Mappings-v" class="headerlink" title="Volume Mappings (-v)"></a>Volume Mappings (-v)</h3><table>
+<thead>
+<tr>
+<th align="left">Volume</th>
+<th align="left">Function</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">&#x2F;config</td>
+<td align="left">calibre-web 的数据和配置文件路径</td>
+</tr>
+<tr>
+<td align="left">&#x2F;books</td>
+<td align="left">calibre 数据库路径</td>
+</tr>
+</tbody></table>
+<h2 id="Calibre-Web-设置"><a href="#Calibre-Web-设置" class="headerlink" title="Calibre-Web 设置"></a>Calibre-Web 设置</h2><h3 id="初始设置"><a href="#初始设置" class="headerlink" title="初始设置"></a>初始设置</h3><p>访问地址，ip 改为树莓派 IP<br><a class="link"   target="_blank" rel="noopener" href="http://ip:8083/" >http://ip:8083/<i class="fas fa-external-link-alt"></i></a></p>
+<p>默认用户 admin 密码 admin123</p>
+<p>将 &#x2F;books 设为 calibre library</p>
+<h3 id="开启网页在线阅读"><a href="#开启网页在线阅读" class="headerlink" title="开启网页在线阅读"></a>开启网页在线阅读</h3><p>打开 Admin - Users - admin，勾选 Allow eBook Viewer</p>
 
             </div>
 
             
 
-            
-                <ul class="post-tags-box">
-                    
-                        <li class="tag-item">
-                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
-                        </li>
-                    
-                </ul>
             
 
             
@@ -230,13 +237,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2020/02/28/piHDD/"
+                               href="/2022/11/11/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-Stable-Diffusion-web-UI/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B 连接硬盘并自动挂载</span>
+                                <span class="post-nav-title-item">Ubuntu 22.04 安装使用 Stable Diffusion web UI</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                             </a>
@@ -246,10 +253,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piNginxShare/"
+                               href="/2021/03/16/piNewDisk/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 20 挂载新硬盘</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B + Ubuntu 19 用 UFW 管理防火墙 |
+            Ubuntu 22.04 安装使用 Stable Diffusion web UI |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                <span class="title-hover-animation">Ubuntu 22.04 安装使用 Stable Diffusion web UI</span>
             </div>
 
             
@@ -156,38 +156,16 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-02-28 21:04:38</span>
-        <span class="mobile">2020-02-28 21:04</span>
+        <span class="pc">2022-11-11 12:45:39</span>
+        <span class="mobile">2022-11-11 12:45</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-11 13:24:23</span>
     </span>
     
     
-        <span class="article-categories article-meta-item">
-            <i class="fas fa-folder"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -202,54 +180,42 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>Linux 真正的防火墙是 iptables，<a target="_blank" rel="noopener" href="https://help.ubuntu.com/community/UFW">UFW</a> (Uncomplicated Firewall) </p>
-<p>是为 Ubuntu 开发的 iptables 管理器，Ubuntu 19.10 自带版本 0.36-1ubuntu3</p>
-<p>UFW 默认关闭，启用前打开 ssh 端口</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow ssh/tcp</span><br><span class="line">sudo ufw logging on</span><br></pre></td></tr></table></figure>
-<p>UFW 默认阻止传入，允许传出</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+                <h1 id="适用于-Nvidia-GPU"><a href="#适用于-Nvidia-GPU" class="headerlink" title="适用于 Nvidia GPU"></a>适用于 Nvidia GPU</h1><h2 id="下载-Stable-Diffusion-web-UI"><a href="#下载-Stable-Diffusion-web-UI" class="headerlink" title="下载 Stable Diffusion web UI"></a>下载 Stable Diffusion web UI</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/AUTOMATIC1111/stable-diffusion-webui.git</span><br></pre></td></tr></table></figure>
 
+<h2 id="安装-CUDA"><a href="#安装-CUDA" class="headerlink" title="安装 CUDA"></a>安装 CUDA</h2><p><a class="link"   target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=Ubuntu&amp;target_version=22.04&amp;target_type=deb_local" >https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=Ubuntu&amp;target_version=22.04&amp;target_type=deb_local<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="下载模型"><a href="#下载模型" class="headerlink" title="下载模型"></a>下载模型</h2><ul>
+<li><p>官网：<a class="link"   target="_blank" rel="noopener" href="https://huggingface.co/CompVis/stable-diffusion-v-1-4-original" >https://huggingface.co/CompVis/stable-diffusion-v-1-4-original<i class="fas fa-external-link-alt"></i></a></p>
+</li>
+<li><p>磁力： magnet:?xt&#x3D;urn:btih:3a4a612d75ed088ea542acac52f9f45987488d1c&amp;dn&#x3D;sd-v1-4.ckpt&amp;tr&#x3D;udp%3a%2f%2ftracker.openbittorrent.com%3a6969%2fannounce&amp;tr&#x3D;udp%3a%2f%2ftracker.opentrackr.org%3a1337</p>
+</li>
+</ul>
+<p>模型存放路径：stable-diffusion-webui\models\Stable-diffusion\</p>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> stable-diffusion-webui</span><br><span class="line">./webui.sh</span><br></pre></td></tr></table></figure>
 
+<h3 id="解决下载缓慢问题"><a href="#解决下载缓慢问题" class="headerlink" title="解决下载缓慢问题"></a>解决下载缓慢问题</h3><ul>
+<li>替换 pip 源 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="built_in">cd</span> venv/bin</span><br><span class="line"> <span class="built_in">source</span> activate</span><br><span class="line">pip config <span class="built_in">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure></li>
+<li>设置 git 代理</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy <span class="string">&#x27;socks5://127.0.0.1:1082&#x27;</span></span><br><span class="line">git config --global https.proxy <span class="string">&#x27;socks5://127.0.0.1:1082&#x27;</span></span><br><span class="line">git config --global --<span class="built_in">unset</span> http.proxy <span class="comment"># 取消代理</span></span><br><span class="line">git config --global --<span class="built_in">unset</span> https.proxy <span class="comment"># 取消代理</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开放非本地访问"><a href="#开放非本地访问" class="headerlink" title="开放非本地访问"></a>开放非本地访问</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./webui.sh --listen</span><br></pre></td></tr></table></figure>
             </div>
 
             
 
             
-                <ul class="post-tags-box">
-                    
-                        <li class="tag-item">
-                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            
 
             
                 <div class="article-nav">
-                    
-                        <div class="article-prev">
-                            <a class="prev"
-                               rel="prev"
-                               href="/2020/02/28/piHDD/"
-                            >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                                <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B 连接硬盘并自动挂载</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                            </a>
-                        </div>
                     
                     
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piNginxShare/"
+                               href="/2022/11/05/piEBook/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 使用 Nginx + WebDAV 搭建加密文件共享服务</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 22.04 使用 Calibre + Calibre-Web 搭建电子书库</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
