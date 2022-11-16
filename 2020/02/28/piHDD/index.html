@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-13 16:56:07</span>
     </span>
     
     
@@ -205,9 +205,6 @@
                 <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>硬盘使用使用高品质有源硬盘盒，并格式化为 ext4 减少 bug ，提升性能</p>
 <p>插入硬盘后</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l <span class="comment"># Device 出现 /dev/sda1</span></span><br><span class="line">sudo mkfs.ext4 /dev/sda1 <span class="comment"># 格式化，可用其他电脑和软件代替</span></span><br></pre></td></tr></table></figure>
-
-<p>确定挂载路径如 &#x2F;mnt 并赋予权限</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chmod</span>  -R 777 /mnt</span><br></pre></td></tr></table></figure>
 
 <h1 id="挂载硬盘"><a href="#挂载硬盘" class="headerlink" title="挂载硬盘"></a>挂载硬盘</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sda1 /mnt <span class="comment">#挂载</span></span><br><span class="line">sudo umount /mnt <span class="comment">#弹出</span></span><br></pre></td></tr></table></figure>
 
@@ -263,10 +260,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piUFW/"
+                               href="/2020/02/28/piHDD.sync-conflict-20221113-171121-MGUNRR3/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                                <span class="post-nav-title-item">树莓派 4B 连接硬盘并自动挂载</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

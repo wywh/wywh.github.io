@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派运行 DDNS 服务，实现外网直连 |
+            树莓派 4B Ubuntu 20 挂载新硬盘 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派运行 DDNS 服务，实现外网直连</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 20 挂载新硬盘</span>
             </div>
 
             
@@ -156,13 +156,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-02-28 21:05:26</span>
-        <span class="mobile">2020-02-28 21:05</span>
+        <span class="pc">2021-03-16 21:35:40</span>
+        <span class="mobile">2021-03-16 21:35</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-13 15:33:12</span>
     </span>
     
     
@@ -202,18 +202,23 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>树莓派有公网 IPv6 地址，可以免去内网穿透，但 IP 地址会产生变化，所以用 Cloudflare 的 DDNS 服务绑定域名，实现远程用域名直连</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>公网 IP，域名，域名 nameserver 设置到 Cloudflare 解析</p>
-<h2 id="获取-Cloudflare-API-Key"><a href="#获取-Cloudflare-API-Key" class="headerlink" title="获取 Cloudflare API Key"></a>获取 Cloudflare API Key</h2><p><a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-">https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-</a></p>
-<h2 id="下载并配置-DDNS-客户端"><a href="#下载并配置-DDNS-客户端" class="headerlink" title="下载并配置 DDNS 客户端"></a>下载并配置 DDNS 客户端</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">sudo git <span class="built_in">clone</span> https://github.com/NewFuture/DDNS.git</span><br><span class="line">vim config.json</span><br></pre></td></tr></table></figure>
+                <h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><ul>
+<li>查看硬盘信息</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
 
-<p>配置文档：<a target="_blank" rel="noopener" href="https://github.com/NewFuture/DDNS">https://github.com/NewFuture/DDNS</a></p>
-<p>测试</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python run.py -c /path/to/config.json</span><br></pre></td></tr></table></figure>
+<ul>
+<li>分区并格式化</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line"><span class="comment"># 按输入后回车</span></span><br><span class="line">mkpart primary 0% 25%</span><br><span class="line">mkpart primary 26% 50%</span><br><span class="line">mkpart primary 51% 100%</span><br><span class="line">quit</span><br><span class="line"><span class="comment"># 格式化</span></span><br><span class="line">sudo mkfs.ext4 /dev/sdb1</span><br><span class="line">sudo mkfs.ext4 /dev/sdb2</span><br><span class="line">sudo mkfs.ext4 /dev/sdb3</span><br></pre></td></tr></table></figure>
 
-<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><p>每 5 分钟检查一次，不发邮件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab –e </span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/5 * * * * sudo python /opt/DDNS/run.py -c /opt/DDNS/config.json &gt;/dev/null 2&gt;&amp;1 </span><br></pre></td></tr></table></figure>
+<h2 id="自动挂载"><a href="#自动挂载" class="headerlink" title="自动挂载"></a>自动挂载</h2><p>查看每个分区的 partuuid 确保挂在在同一路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l /dev/disk/by-partuuid/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PARTUUID=* /mnt/a ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br><span class="line">PARTUUID=* /mnt/b ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br><span class="line">PARTUUID=* /mnt/c ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br></pre></td></tr></table></figure>
+
             </div>
 
             
@@ -234,13 +239,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2020/03/03/piSamba/"
+                               href="/2021/03/16/piNewDisk/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 安装 Samba 在局域网共享文件</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 20 挂载新硬盘</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                             </a>
@@ -250,10 +255,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piOverlock/"
+                               href="/2020/04/10/piJellyfinDirect/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">超频 Ubuntu 19.10 树莓派 4B 至 2 GHz</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

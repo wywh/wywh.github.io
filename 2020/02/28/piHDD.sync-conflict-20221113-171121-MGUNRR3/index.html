@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派运行 DDNS 服务，实现外网直连 |
+            树莓派 4B 连接硬盘并自动挂载 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派运行 DDNS 服务，实现外网直连</span>
+                <span class="title-hover-animation">树莓派 4B 连接硬盘并自动挂载</span>
             </div>
 
             
@@ -156,13 +156,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-02-28 21:05:26</span>
+        <span class="pc">2020-02-28 21:05:01</span>
         <span class="mobile">2020-02-28 21:05</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-13 16:02:40</span>
     </span>
     
     
@@ -202,18 +202,31 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>树莓派有公网 IPv6 地址，可以免去内网穿透，但 IP 地址会产生变化，所以用 Cloudflare 的 DDNS 服务绑定域名，实现远程用域名直连</p>
-<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>公网 IP，域名，域名 nameserver 设置到 Cloudflare 解析</p>
-<h2 id="获取-Cloudflare-API-Key"><a href="#获取-Cloudflare-API-Key" class="headerlink" title="获取 Cloudflare API Key"></a>获取 Cloudflare API Key</h2><p><a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-">https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-</a></p>
-<h2 id="下载并配置-DDNS-客户端"><a href="#下载并配置-DDNS-客户端" class="headerlink" title="下载并配置 DDNS 客户端"></a>下载并配置 DDNS 客户端</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /opt</span><br><span class="line">sudo git <span class="built_in">clone</span> https://github.com/NewFuture/DDNS.git</span><br><span class="line">vim config.json</span><br></pre></td></tr></table></figure>
+                <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>硬盘使用使用高品质有源硬盘盒，并格式化为 ext4 减少 bug ，提升性能</p>
+<p>插入硬盘后</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l <span class="comment"># Device 出现 /dev/sda1</span></span><br><span class="line">sudo mkfs.ext4 /dev/sda1 <span class="comment"># 格式化，可用其他电脑和软件代替</span></span><br></pre></td></tr></table></figure>
 
-<p>配置文档：<a target="_blank" rel="noopener" href="https://github.com/NewFuture/DDNS">https://github.com/NewFuture/DDNS</a></p>
-<p>测试</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python run.py -c /path/to/config.json</span><br></pre></td></tr></table></figure>
+<p>确定挂载路径如 &#x2F;mnt 并赋予权限</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chmod</span>  -R 777 /mnt</span><br></pre></td></tr></table></figure>
 
-<h2 id="设置定时任务"><a href="#设置定时任务" class="headerlink" title="设置定时任务"></a>设置定时任务</h2><p>每 5 分钟检查一次，不发邮件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab –e </span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/5 * * * * sudo python /opt/DDNS/run.py -c /opt/DDNS/config.json &gt;/dev/null 2&gt;&amp;1 </span><br></pre></td></tr></table></figure>
+<h1 id="挂载硬盘"><a href="#挂载硬盘" class="headerlink" title="挂载硬盘"></a>挂载硬盘</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sda1 /mnt <span class="comment">#挂载</span></span><br><span class="line">sudo umount /mnt <span class="comment">#弹出</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="设置开机自动挂载"><a href="#设置开机自动挂载" class="headerlink" title="设置开机自动挂载"></a>设置开机自动挂载</h1><p>因为连接问题或重启后 &#x2F;dev 的路径偶尔会发生变化，所以按照 PARTUUID 设置挂载路径</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid <span class="comment">#获得硬盘 PARTUUID 如 aaaaaa</span></span><br></pre></td></tr></table></figure>
+
+<p>添加至 fstab</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PARTUUID=aaaaaa       /mnt      ext4    defaults,nofail,x-systemd.device-timeout=10,noatime 0 0</span><br></pre></td></tr></table></figure>
+<p>部分参数解释：</p>
+<ul>
+<li><p><code>nofail</code>：硬盘连接时挂载，未连接时跳过，防止未连接时无法开机</p>
+</li>
+<li><p><code>x-systemd.device-timeout</code>：与 <code>nofail</code> 搭配，未连接时默认等待时间为 90 秒，设置后减少等待时间，但不能为 0 或过短，否则会无限等待或跳过自动挂载造成自动挂载失败，经测试设置为 5 时可能跳过挂载</p>
+</li>
+<li><p><code>noatime</code>：阻止多余的写操作，提升性能</p>
+</li>
+</ul>
+
             </div>
 
             
@@ -234,13 +247,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2020/03/03/piSamba/"
+                               href="/2020/02/28/piHDD/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 安装 Samba 在局域网共享文件</span>
+                                <span class="post-nav-title-item">树莓派 4B 连接硬盘并自动挂载</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                             </a>
@@ -250,10 +263,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/02/28/piOverlock/"
+                               href="/2020/02/28/piUFW/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">超频 Ubuntu 19.10 树莓派 4B 至 2 GHz</span>
+                                <span class="post-nav-title-item">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 20.04 64bit 直接安装 Jellyfin 并开启硬件加速 |
+            树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 20.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-04-12 08:09:07</span>
+        <span class="pc">2022-11-17 02:26:31</span>
     </span>
     
     
@@ -204,22 +204,12 @@
             <div class="article-content keep-markdown-body">
                 <h2 id="安装-Jellyfin"><a href="#安装-Jellyfin" class="headerlink" title="安装 Jellyfin"></a>安装 Jellyfin</h2><p>按官方教程安装</p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://jellyfin.org/docs/general/administration/installing.html#ubuntu" >https://jellyfin.org/docs/general/administration/installing.html#ubuntu<i class="fas fa-external-link-alt"></i></a></p>
-<h2 id="硬件加速（待解决）"><a href="#硬件加速（待解决）" class="headerlink" title="硬件加速（待解决）"></a>硬件加速（待解决）</h2><p>官方教程的 h264_omx 不支持 64 位系统，使用树莓派硬件支持的 h264_v4l2m2m</p>
-<p>在 Jellyfin 仪表板的“播放”选项卡上的“硬件加速”选择 Exynos V4L2 MFC</p>
-<p>修改 GPU 显存</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /boot/firmware/config.txt</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpu_mem=256</span><br></pre></td></tr></table></figure>
-
+<h2 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h2><p>使用树莓派硬件支持的 V4L2</p>
+<p>在 Jellyfin 仪表板的“播放”选项卡上的“硬件加速”选择 Video4Linux2(V4L2)</p>
 <p>添加权限</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG video jellyfin</span><br><span class="line">sudo systemctl restart jellyfin</span><br></pre></td></tr></table></figure>
 
-<p>目前存在问题</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/jellyfin/jellyfin/issues/4892" >https://github.com/jellyfin/jellyfin/issues/4892<i class="fas fa-external-link-alt"></i></a></p>
-<h2 id="客户端播放设置"><a href="#客户端播放设置" class="headerlink" title="客户端播放设置"></a>客户端播放设置</h2><p>客户端安装 kodi 与 jellyfin for kodi 插件</p>
-<p>在 jellyfin 插件设置的 playback 中关闭 force http playback，提高 max stream bitrate</p>
-<p>kodi 空间音效设置</p>
-<p>kodi 设置 - system - audio，打开 standard 模式，打开 audio passthrough 中 allow passthrough</p>
+<p>经测试，服务端解码可流畅播放 60 Mbps H264 视频</p>
 
             </div>
 
@@ -241,7 +231,7 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2021/03/16/piNewDisk/"
+                               href="/2021/03/16/piNewDisk.sync-conflict-20221113-162018-L74HB4M/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
