@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-17 14:11:34</span>
     </span>
     
     
@@ -218,6 +218,16 @@
 
 <p>Windows</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\ip-address\sambashare</span><br></pre></td></tr></table></figure>
+
+<h2 id="加快-macOS-网络共享内容的浏览速度"><a href="#加快-macOS-网络共享内容的浏览速度" class="headerlink" title="加快 macOS 网络共享内容的浏览速度"></a>加快 macOS 网络共享内容的浏览速度</h2><p>要加快 SMB 文件的浏览速度，您可以阻止 macOS 读取 SMB 共享上的 .DS_Store 文件。这样，“访达”将只使用基本信息来立即以字母数字顺序显示各个文件夹的内容。使用以下终端命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE</span><br></pre></td></tr></table></figure>
+
+<p>然后退出登录 macOS 帐户并重新登录。</p>
+<p>要重新启用排序，请使用以下命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool FALSE</span><br></pre></td></tr></table></figure>
+
+<h2 id="强化-macOS-连接"><a href="#强化-macOS-连接" class="headerlink" title="强化 macOS 连接"></a>强化 macOS 连接</h2><p>smb.conf 添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Global]</span><br><span class="line">vfs objects = fruit streams_xattr  </span><br><span class="line">fruit:metadata = stream</span><br><span class="line">fruit:model = MacSamba</span><br><span class="line">fruit:posix_rename = yes </span><br><span class="line">fruit:veto_appledouble = no</span><br><span class="line">fruit:nfs_aces = no</span><br><span class="line">fruit:wipe_intentionally_left_blank_rfork = yes </span><br><span class="line">fruit:delete_empty_adfiles = yes </span><br></pre></td></tr></table></figure>
             </div>
 
             
