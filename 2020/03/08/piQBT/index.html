@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 19 安装 qBittorrent 作为下载机 |
+            树莓派 4B Ubuntu 22.04 安装 qBittorrent Enhanced Edition 作为下载机 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 19 安装 qBittorrent 作为下载机</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 22.04 安装 qBittorrent Enhanced Edition 作为下载机</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-15 08:41:18</span>
+        <span class="pc">2022-11-23 21:08:27</span>
     </span>
     
     
@@ -202,19 +202,21 @@
             
 
             <div class="article-content keep-markdown-body">
-                <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装 CLI 版本的 qBittorrent-nox</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stable</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install qbittorrent-nox</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><h3 id="首次运行"><a href="#首次运行" class="headerlink" title="首次运行"></a>首次运行</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qbittorrent-nox</span><br></pre></td></tr></table></figure>
-<p>根据输出提示用浏览器访问并修改设置，生成的配置文件位于 ~&#x2F;.config</p>
-<h3 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/qbittorrent.service</span><br></pre></td></tr></table></figure>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=qBittorrent Daemon Service</span><br><span class="line">Documentation=man:qbittorrent-nox(1)</span><br><span class="line">Wants=network-online.target</span><br><span class="line">After=network-online.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"># if you have systemd &gt;= 240, you probably want to use Type=exec instead</span><br><span class="line"># Type=simple</span><br><span class="line">Type=exec</span><br><span class="line">#当前用户</span><br><span class="line">User=ubuntu</span><br><span class="line">ExecStart=/usr/bin/qbittorrent-nox</span><br><span class="line">TimeoutStopSec=infinity</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> qbittorrent</span><br></pre></td></tr></table></figure>
+                <p>qBittorrent Enhanced Edition 可设置自动从 tracker 列表链接更新 tracker，屏蔽迅雷等</p>
+<h2 id="卸载原版-qBittorrent"><a href="#卸载原版-qBittorrent" class="headerlink" title="卸载原版 qBittorrent"></a>卸载原版 qBittorrent</h2><p>如果已安装 qBittorrent，先卸载</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop qbittorrent</span><br><span class="line">sudo apt --purge remove qbittorrent-nox</span><br><span class="line">sudo add-apt-repository -r ppa:qbittorrent-team/qbittorrent-stable</span><br><span class="line">sudo <span class="built_in">rm</span> /etc/apt/sources.list.d/qbittorrent*</span><br><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt clean</span><br><span class="line">sudo apt update</span><br><span class="line">sudo <span class="built_in">rm</span>  /etc/systemd/system/qbittorrent.service</span><br><span class="line"><span class="built_in">cd</span> ~/.config</span><br><span class="line"><span class="built_in">rm</span> qBittorrent.conf</span><br><span class="line"><span class="built_in">rm</span> -rf qBittorrent</span><br><span class="line">sudo systemctl daemon-reload</span><br></pre></td></tr></table></figure>
 
-<h3 id="设置-Nginx-反向代理-qBittorrent"><a href="#设置-Nginx-反向代理-qBittorrent" class="headerlink" title="设置 Nginx 反向代理 qBittorrent"></a>设置 Nginx 反向代理 qBittorrent</h3><p>Nginx 配置文件的 server 中加入</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装 CLI 版本的 qbittorrent-enhanced-nox</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:poplite/qbittorrent-enhanced</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install qbittorrent-enhanced-nox</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start qbittorrent-enhanced-nox</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> qbittorrent-enhanced-nox</span><br></pre></td></tr></table></figure>
+
+<p>默认运行用户为 qbtuser<br>配置文件路径为 &#x2F;home&#x2F;qbtuser&#x2F;.config&#x2F;qBittorrent</p>
+<p>默认浏览器访问路径 localhost:8080<br>用户名 admin<br>密码 adminadmin</p>
+<h2 id="设置-Nginx-反向代理-qBittorrent"><a href="#设置-Nginx-反向代理-qBittorrent" class="headerlink" title="设置 Nginx 反向代理 qBittorrent"></a>设置 Nginx 反向代理 qBittorrent</h2><p>Nginx 配置文件的 server 中加入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /qbt/ &#123; </span><br><span class="line">	# 修改成本地端口</span><br><span class="line">    proxy_pass http://127.0.0.1:8008/;</span><br><span class="line">    proxy_http_version      1.1;</span><br><span class="line">    # domain:port 修改成域名:端口</span><br><span class="line">    proxy_set_header        X-Forwarded-Host        domain:port;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>&#x2F;qbt&#x2F; 中末尾的 &#x2F; 不能省略，否则会显示不全</p>
-<p>proxy_pass 中末尾的 &#x2F; 不能省略，否则 Nginx 会转至 <a target="_blank" rel="noopener" href="http://127.0.0.1:8008/qbt/">http://127.0.0.1:8008/qbt/</a> 造成 404</p>
+<p>proxy_pass 中末尾的 &#x2F; 不能省略，否则 Nginx 会转至 <a class="link"   target="_blank" rel="noopener" href="http://127.0.0.1:8008/qbt/" >http://127.0.0.1:8008/qbt/<i class="fas fa-external-link-alt"></i></a> 造成 404</p>
 
             </div>
 

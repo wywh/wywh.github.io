@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 20 挂载新硬盘 |
+            树莓派 4B Ubuntu 20.04.2 使用外置 SSD 启动 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 20 挂载新硬盘</span>
+                <span class="title-hover-animation">树莓派 4B Ubuntu 20.04.2 使用外置 SSD 启动</span>
             </div>
 
             
@@ -156,13 +156,13 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2021-03-16 21:35:40</span>
-        <span class="mobile">2021-03-16 21:35</span>
+        <span class="pc">2021-04-06 21:35:40</span>
+        <span class="mobile">2021-04-06 21:35</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-03-18 18:24:47</span>
+        <span class="pc">2022-11-23 20:20:10</span>
     </span>
     
     
@@ -202,23 +202,23 @@
             
 
             <div class="article-content keep-markdown-body">
-                <h2 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h2><ul>
-<li>查看硬盘信息</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+                <p>需要使用高品质有源的硬盘盒或有源 hub，尤其对于 nvme 硬盘必须有外接电源</p>
+<p>如果 bootloader 太旧不支持 USB 启动，需要先使用 SD 卡的系统操作</p>
+<h2 id="查看-bootloader-版本"><a href="#查看-bootloader-版本" class="headerlink" title="查看 bootloader 版本"></a>查看 bootloader 版本</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libraspberrypi-bin</span><br><span class="line"></span><br><span class="line">sudo vcgencmd bootloader_version</span><br><span class="line">Sep 10 2019 10:41:50</span><br><span class="line">version f626c772b15ba1b7e0532a8d50a761b3ccbdf3bb (release)</span><br><span class="line">timestamp 1568112110</span><br><span class="line">update-time 0</span><br><span class="line">capabilities 0x00000000</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>分区并格式化</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">parted /dev/sdb</span><br><span class="line">mkpart primary 0% 25%</span><br><span class="line">mkpart primary 26% 50%</span><br><span class="line">mkpart primary 51% 100%</span><br><span class="line">quit</span><br></pre></td></tr></table></figure>
 
-<h2 id="自动挂载"><a href="#自动挂载" class="headerlink" title="自动挂载"></a>自动挂载</h2><p>查看每个分区的 partuuid 确保挂在在同一路径</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l /dev/disk/by-partuuid/</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
+<h2 id="更新-bootloader，使其支持-USB-启动"><a href="#更新-bootloader，使其支持-USB-启动" class="headerlink" title="更新 bootloader，使其支持 USB 启动"></a>更新 bootloader，使其支持 USB 启动</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install rpi-eeprom</span><br><span class="line">sudo rpi-eeprom-update -a</span><br><span class="line">sudo reboot</span><br><span class="line">sudo vcgencmd bootloader_version</span><br><span class="line">Sep  3 2020 13:11:43</span><br><span class="line">version c305221a6d7e532693cc7ff57fddfc8649def167 (release)</span><br><span class="line">timestamp 1599135103</span><br><span class="line">update-time 0</span><br><span class="line">capabilities 0x00000000</span><br><span class="line"></span><br><span class="line">vcgencmd bootloader_config</span><br><span class="line">[all]</span><br><span class="line">BOOT_UART=0</span><br><span class="line">WAKE_ON_GPIO=1</span><br><span class="line">POWER_OFF_ON_HALT=0</span><br><span class="line">DHCP_TIMEOUT=45000</span><br><span class="line">DHCP_REQ_TIMEOUT=4000</span><br><span class="line">TFTP_FILE_TIMEOUT=30000</span><br><span class="line">ENABLE_SELF_UPDATE=1</span><br><span class="line">DISABLE_HDMI=0</span><br><span class="line">BOOT_ORDER=0xf41</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PARTUUID=* /mnt/a ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br><span class="line">PARTUUID=* /mnt/b ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br><span class="line">PARTUUID=* /mnt/c ext4 defaults,nofail,x-systemd.device-timeout=20,noatime 0 0</span><br></pre></td></tr></table></figure>
+<p>BOOT_ORDER&#x3D;0xf41 说明支持从 SSD 启动</p>
+<h2 id="迁移系统"><a href="#迁移系统" class="headerlink" title="迁移系统"></a>迁移系统</h2><p>使用 diskgenius 迁移</p>
+<h2 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h2><p>Ubuntu server 20.04 存在问题使外接 U 盘启动失败，需要修复</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://jamesachambers.com/raspberry-pi-4-ubuntu-20-04-usb-mass-storage-boot-guide/" >https://jamesachambers.com/raspberry-pi-4-ubuntu-20-04-usb-mass-storage-boot-guide/<i class="fas fa-external-link-alt"></i></a></p>
+<p>启动后 Samba 与 jellyfin 出现异常，删除 &#x2F;var&#x2F;lib 与 &#x2F;var&#x2F;log 对应文件夹并重装</p>
+<p>Jellyfin 重置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/jellyfin/system.xml</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">IsStartupWizardCompleted</span>&gt;</span>false<span class="tag">&lt;/<span class="name">IsStartupWizardCompleted</span>&gt;</span></span><br></pre></td></tr></table></figure>
             </div>
 
             
@@ -239,13 +239,13 @@
                         <div class="article-prev">
                             <a class="prev"
                                rel="prev"
-                               href="/2021/04/06/piSSD/"
+                               href="/2022/11/05/piEBook/"
                             >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                                 <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 20.04.2 使用外置 SSD 启动</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 22.04 使用 Calibre + Calibre-Web 搭建电子书库</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                             </a>
@@ -255,10 +255,10 @@
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/04/10/piJellyfinDirect/"
+                               href="/2021/03/16/piNewDisk/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
+                                <span class="post-nav-title-item">树莓派 4B Ubuntu 20 挂载新硬盘</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">

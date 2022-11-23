@@ -206,6 +206,42 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2021/04/06/piSSD/">
+                        树莓派 4B Ubuntu 20.04.2 使用外置 SSD 启动
+                    </a>
+                </h3>
+
+                <div class="home-article-content keep-markdown-body">
+                    
+                        需要使用高品质有源的硬盘盒或有源 hub，尤其对于 nvme 硬盘必须有外接电源
+如果 bootloader 太旧不支持 USB 启动，需要先使用 SD 卡的系统操作
+查看 bootloader 版本12345678sudo apt install ...
+                    
+                </div>
+
+                
+<div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span>
+            <i class="fas fa-history"></i>&nbsp;
+            <span class="home-article-date" data-date="Wed Nov 23 2022 20:20:10 GMT+0800">
+                2022-11-23
+            </span>
+        </span>
+        
+        
+    </div>
+
+    <a class="read-more" href="/2021/04/06/piSSD/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2021/03/16/piNewDisk/">
                         树莓派 4B Ubuntu 20 挂载新硬盘
                     </a>
@@ -323,14 +359,15 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
 
                 <h3 class="home-article-title">
                     <a href="/2020/03/08/piQBT/">
-                        树莓派 4B Ubuntu 19 安装 qBittorrent 作为下载机
+                        树莓派 4B Ubuntu 22.04 安装 qBittorrent Enhanced Edition 作为下载机
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        安装安装 CLI 版本的 qBittorrent-nox
-123sudo add-apt-repository ppa:qbittorrent-team/qbittorrent-stablesudo apt-get updatesudo apt-ge...
+                        qBittorrent Enhanced Edition 可设置自动从 tracker 列表链接更新 tracker，屏蔽迅雷等
+卸载原版 qBittorrent如果已安装 qBittorrent，先卸载
+123456789101112sudo sy...
                     
                 </div>
 
@@ -339,8 +376,8 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
     <div class="home-article-meta-info">
         <span>
             <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Mar 15 2021 08:41:18 GMT+0800">
-                2021-03-15
+            <span class="home-article-date" data-date="Wed Nov 23 2022 21:08:27 GMT+0800">
+                2022-11-23
             </span>
         </span>
         
@@ -426,15 +463,15 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
                 
 
                 <h3 class="home-article-title">
-                    <a href="/2020/03/05/piDOH/">
-                        树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器
+                    <a href="/2020/03/06/piVPN/">
+                        树莓派 4B Ubuntu 20 使用 PiVPN 搭建 WireGuard 访问内网
                     </a>
                 </h3>
 
                 <div class="home-article-content keep-markdown-body">
                     
-                        树莓派上运行 DoH 客户端，加密局域网设备的 DNS 请求，为下一步将树莓派开启热点，作为网关运行透明代理服务作准备
-基本原理Linux 的 DNS 服务器由 &#x2F;etc&#x2F;resolv.conf 文件指定，Ubuntu 18.04...
+                        由于经常有访问内网中服务的需求，路由器的端口映射数量有限，加上为了提高连接公共 Wi-Fi 时的安全性，所以使用树莓派作为 VPN 服务器。利用 PiVPN 方便安装，这种方法同样适用于 Ubuntu 和 Debian 机器
+安装 PiVPNcurl...
                     
                 </div>
 
@@ -443,53 +480,15 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
     <div class="home-article-meta-info">
         <span>
             <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Apr 08 2021 10:39:50 GMT+0800">
-                2021-04-08
+            <span class="home-article-date" data-date="Wed Nov 23 2022 20:21:33 GMT+0800">
+                2022-11-23
             </span>
         </span>
         
         
     </div>
 
-    <a class="read-more" href="/2020/03/05/piDOH/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2020/03/03/piSamba/">
-                        树莓派 4B Ubuntu 19 安装 Samba 在局域网共享文件
-                    </a>
-                </h3>
-
-                <div class="home-article-content keep-markdown-body">
-                    
-                        安装 Samba12sudo apt updatesudo apt install samba
-
-配置 Samba设定共享路径和并启动1sudo vim /etc/samba/smb.conf
-文件末尾添加
-1234567# 共享文件根目录名 sam...
-                    
-                </div>
-
-                
-<div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span>
-            <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-date="Thu Nov 17 2022 14:11:34 GMT+0800">
-                2022-11-17
-            </span>
-        </span>
-        
-        
-    </div>
-
-    <a class="read-more" href="/2020/03/03/piSamba/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+    <a class="read-more" href="/2020/03/06/piVPN/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
 </div>
 
             </li>
