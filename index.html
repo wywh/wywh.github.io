@@ -135,6 +135,41 @@
                 
 
                 <h3 class="home-article-title">
+                    <a href="/2023/03/10/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openai-whisper/">
+                        Ubuntu 22.04 安装使用 openai whisper
+                    </a>
+                </h3>
+
+                <div class="home-article-content keep-markdown-body">
+                    
+                        安装 pip12curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   # 下载安装脚本sudo python get-pip.py
+安装 openai-whisper12# 使用清华源pi...
+                    
+                </div>
+
+                
+<div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span>
+            <i class="fas fa-history"></i>&nbsp;
+            <span class="home-article-date" data-date="Fri Mar 10 2023 11:16:06 GMT+0800">
+                2023-03-10
+            </span>
+        </span>
+        
+        
+    </div>
+
+    <a class="read-more" href="/2023/03/10/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openai-whisper/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
                     <a href="/2022/11/11/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-Stable-Diffusion-web-UI/">
                         Ubuntu 22.04 安装使用 Stable Diffusion web UI
                     </a>
@@ -458,41 +493,6 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
 
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                <h3 class="home-article-title">
-                    <a href="/2020/03/06/piVPN/">
-                        树莓派 4B Ubuntu 20 使用 PiVPN 搭建 WireGuard 访问内网
-                    </a>
-                </h3>
-
-                <div class="home-article-content keep-markdown-body">
-                    
-                        由于经常有访问内网中服务的需求，路由器的端口映射数量有限，加上为了提高连接公共 Wi-Fi 时的安全性，所以使用树莓派作为 VPN 服务器。利用 PiVPN 方便安装，这种方法同样适用于 Ubuntu 和 Debian 机器
-安装 PiVPNcurl...
-                    
-                </div>
-
-                
-<div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span>
-            <i class="fas fa-history"></i>&nbsp;
-            <span class="home-article-date" data-date="Wed Nov 23 2022 20:21:33 GMT+0800">
-                2022-11-23
-            </span>
-        </span>
-        
-        
-    </div>
-
-    <a class="read-more" href="/2020/03/06/piVPN/">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
-</div>
-
-            </li>
-        
     </ul>
 
     <div class="home-paginator">
@@ -516,28 +516,43 @@ https://jellyfin.org/docs/general/administration/installing.html#ubuntu
         </div>
 
         <div class="page-main-content-bottom">
-            
-<footer class="footer">
-    <div class="info-container">
-        <div class="copyright-info info-item">
-            &copy;
-            
-                <span>2020</span> -
-            
-            2022
-            
-                &nbsp;<i class="fas fa-heart icon-animate"></i>
-                &nbsp;<a href="/">Keep Team</a>
-            
-        </div>
-        
-        <div class="theme-info info-item">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.5.1</a>
-        </div>
-        
-        
-    </div>
-</footer>
+            .footer {
+  color var(--text-color-4)
+  font-size 1rem
+
+
+  a {
+    color var(--text-color-4)
+
+    &:hover {
+      color var(--primary-color)
+    }
+  }
+
+  .info-container {
+    padding-bottom 1rem
+    text-align center
+  }
+
+  .info-item {
+    margin 0.3rem 0
+    color var(--text-color-4)
+
+    &.ypyun-info a {
+      display flex
+      align-items center
+      justify-content center
+
+      img {
+        margin 0 0.3rem
+      }
+    }
+  }
+
+  .icon-animate {
+    animation icon-animate 1.2s ease-in-out infinite
+  }
+}
 
         </div>
     </div>

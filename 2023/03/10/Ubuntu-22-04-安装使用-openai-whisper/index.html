@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 20 使用 PiVPN 搭建 WireGuard 访问内网 |
+            Ubuntu 22.04 安装使用 openai whisper |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 20 使用 PiVPN 搭建 WireGuard 访问内网</span>
+                <span class="title-hover-animation">Ubuntu 22.04 安装使用 openai whisper</span>
             </div>
 
             
@@ -156,38 +156,16 @@
         
             <i class="fa-regular fa-calendar-plus"></i>&nbsp;
         
-        <span class="pc">2020-03-06 21:35:40</span>
-        <span class="mobile">2020-03-06 21:35</span>
+        <span class="pc">2023-03-10 11:06:12</span>
+        <span class="mobile">2023-03-10 11:06</span>
     </span>
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-23 20:21:33</span>
+        <span class="pc">2023-03-10 11:16:06</span>
     </span>
     
     
-        <span class="article-categories article-meta-item">
-            <i class="fas fa-folder"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/categories/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/raspberry-pi/">raspberry pi</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
     
 
     
@@ -202,55 +180,36 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>由于经常有访问内网中服务的需求，路由器的端口映射数量有限，加上为了提高连接公共 Wi-Fi 时的安全性，所以使用树莓派作为 VPN 服务器。<br>利用 PiVPN 方便安装，这种方法同样适用于 Ubuntu 和 Debian 机器</p>
-<h2 id="安装-PiVPN"><a href="#安装-PiVPN" class="headerlink" title="安装 PiVPN"></a>安装 PiVPN</h2><p>curl -L <a class="link"   target="_blank" rel="noopener" href="https://install.pivpn.io/" >https://install.pivpn.io<i class="fas fa-external-link-alt"></i></a> | bash<br>空格键用于选择，回车键用于确认</p>
-<p>选择 WireGuard<br>手动添加 dns服务器和 ddns 网址</p>
-<p>pivpn add</p>
-<p>Setupfiles copied to &#x2F;etc&#x2F;pivpn&#x2F;wireguard&#x2F;setupVars.conf</p>
-<h2 id="生成客户端配置文件"><a href="#生成客户端配置文件" class="headerlink" title="生成客户端配置文件"></a>生成客户端配置文件</h2><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/pivpn/pivpn/wiki/WireGuard" >https://github.com/pivpn/pivpn/wiki/WireGuard<i class="fas fa-external-link-alt"></i></a><br>pivpn add</p>
-<h2 id="在客户端安装-WireGuard"><a href="#在客户端安装-WireGuard" class="headerlink" title="在客户端安装 WireGuard"></a>在客户端安装 WireGuard</h2><p>Windows&#x2F;MacOS<br><a class="link"   target="_blank" rel="noopener" href="https://www.wireguard.com/install/" >https://www.wireguard.com/install/<i class="fas fa-external-link-alt"></i></a></p>
-<p>Android&#x2F;iOS<br>Run pivpn -qr on the PiVPN server to generate a QR code of your config, download the Wireguard app Android link &#x2F; iOS link, click the ‘+’ sign and scan the QR code with your phone’s camera. Flip the switch to activate the tunnel.</p>
+                <h1 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   <span class="comment"># 下载安装脚本</span></span><br><span class="line">sudo python get-pip.py</span><br></pre></td></tr></table></figure>
+<h1 id="安装-openai-whisper"><a href="#安装-openai-whisper" class="headerlink" title="安装 openai-whisper"></a>安装 openai-whisper</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用清华源</span></span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U openai-whisper</span><br></pre></td></tr></table></figure>
+<p>安装完成后提示<br>WARNING: The script lit is installed in ‘&#x2F;home&#x2F;*&#x2F;.local&#x2F;bin’ which is not on PATH.<br>  Consider adding this directory to PATH or, if you prefer to suppress this warning, use –no-warn-script-location.</p>
+<p>将 ~&#x2F;.local&#x2F;bin 加入 PATH</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>添加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/home/*</span><br></pre></td></tr></table></figure>
+<p>使配置生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> .bashrc</span><br></pre></td></tr></table></figure>
+<h1 id="运行-whisper"><a href="#运行-whisper" class="headerlink" title="运行 whisper"></a>运行 whisper</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whisper audio.flac audio.mp3 audio.wav --model medium</span><br></pre></td></tr></table></figure>
+
+<p>参考 <a class="link"   target="_blank" rel="noopener" href="https://github.com/openai/whisper" >https://github.com/openai/whisper<i class="fas fa-external-link-alt"></i></a></p>
 
             </div>
 
             
 
             
-                <ul class="post-tags-box">
-                    
-                        <li class="tag-item">
-                            <a href="/tags/raspberry-pi/">#raspberry pi</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            
 
             
                 <div class="article-nav">
-                    
-                        <div class="article-prev">
-                            <a class="prev"
-                               rel="prev"
-                               href="/2020/03/06/piWifiHotSpot/"
-                            >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                                <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B Ubuntu 19 开启 Wi-Fi 热点并搭建透明代理网关</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                            </a>
-                        </div>
                     
                     
                         <div class="article-next">
                             <a class="next"
                                rel="next"
-                               href="/2020/03/05/piDOH/"
+                               href="/2022/11/11/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-Stable-Diffusion-web-UI/"
                             >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器</span>
+                                <span class="post-nav-title-item">Ubuntu 22.04 安装使用 Stable Diffusion web UI</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                                 <span class="right arrow-icon flex-center">
