@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-03-10 22:27:12</span>
+        <span class="pc">2023-03-11 01:51:32</span>
     </span>
     
     
@@ -183,11 +183,10 @@
                 <h1 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py   <span class="comment"># 下载安装脚本</span></span><br><span class="line">sudo python get-pip.py</span><br></pre></td></tr></table></figure>
 <h1 id="安装-openai-whisper"><a href="#安装-openai-whisper" class="headerlink" title="安装 openai-whisper"></a>安装 openai-whisper</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用清华源</span></span><br><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U openai-whisper</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>安装完成后提示<br>WARNING: The script lit is installed in ‘&#x2F;home&#x2F;*&#x2F;.local&#x2F;bin’ which is not on PATH.<br>Consider adding this directory to PATH or, if you prefer to suppress this warning, use –no-warn-script-location.</p>
-</li>
-<li><p>将 ~&#x2F;.local&#x2F;bin 加入 PATH</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 * 改为当前系统用户名</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/*/.local/bin </span><br></pre></td></tr></table></figure></li>
+<li>安装完成后提示<br>WARNING: The script lit is installed in ‘&#x2F;home&#x2F;*&#x2F;.local&#x2F;bin’ which is not on PATH.<br>Consider adding this directory to PATH or, if you prefer to suppress this warning, use –no-warn-script-location.</li>
 </ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 * 改为当前系统用户名</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/home/*/.local/bin </span><br></pre></td></tr></table></figure>
+
 <h1 id="运行-whisper"><a href="#运行-whisper" class="headerlink" title="运行 whisper"></a>运行 whisper</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whisper audio.flac audio.mp3 audio.wav --model medium</span><br></pre></td></tr></table></figure>
 
 <ul>
