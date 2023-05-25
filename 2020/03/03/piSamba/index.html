@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-17 14:11:34</span>
+        <span class="pc">2023-05-25 14:18:18</span>
     </span>
     
     
@@ -228,6 +228,12 @@
 
 <h2 id="强化-macOS-连接"><a href="#强化-macOS-连接" class="headerlink" title="强化 macOS 连接"></a>强化 macOS 连接</h2><p>smb.conf 添加</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Global]</span><br><span class="line">vfs objects = fruit streams_xattr  </span><br><span class="line">fruit:metadata = stream</span><br><span class="line">fruit:model = MacSamba</span><br><span class="line">fruit:posix_rename = yes </span><br><span class="line">fruit:veto_appledouble = no</span><br><span class="line">fruit:nfs_aces = no</span><br><span class="line">fruit:wipe_intentionally_left_blank_rfork = yes </span><br><span class="line">fruit:delete_empty_adfiles = yes </span><br></pre></td></tr></table></figure>
+
+<h2 id="适配-Wireguard"><a href="#适配-Wireguard" class="headerlink" title="适配 Wireguard"></a>适配 Wireguard</h2><p>查看 wireguard 的 interface，通常是 wg0</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip a</span><br></pre></td></tr></table></figure>
+
+<p>smb.conf 中 interfaces &#x3D; 之后添加 wg0</p>
+
             </div>
 
             
