@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-27 05:03:05</span>
+        <span class="pc">2023-05-27 05:13:21</span>
     </span>
     
     
@@ -199,7 +199,7 @@
 <h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>本例使用 fd24:609a:6c18::&#x2F;128 地址段，服务端使用 fd24:609a:6c18::1&#x2F;128</p>
 <h2 id="Wireguard-配置文件"><a href="#Wireguard-配置文件" class="headerlink" title="Wireguard 配置文件"></a>Wireguard 配置文件</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 私钥</span><br><span class="line">Address = 10.8.0.1/32, fd24:609a:6c18::1/128</span><br><span class="line">MTU = 1280</span><br><span class="line">ListenPort = 51820</span><br><span class="line">SaveConfig = true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 私钥</span><br><span class="line">Address = 10.8.0.1/32, fd24:609a:6c18::1/128</span><br><span class="line">MTU = 1280</span><br><span class="line">ListenPort = 51820</span><br><span class="line">SaveConfig = true</span><br></pre></td></tr></table></figure>
 <p>MTU: 默认为 1420，使用 IPv6 应改为 1280<br>ListenPort: 服务端的监听端口<br>SaveConfig: 改动是否保存至文件，选 true 之后直接修改配置文件前应先停止运行 Wireguard</p>
 <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
 
@@ -220,7 +220,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
 
 <p>打开服务端端口</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 51820/udp</span><br><span class="line">sudo ufw allow from 10.8.0.0/24 comment <span class="string">&quot;wireguard lan&quot;</span></span><br><span class="line">sudo ufw allow from fd24:609a:6c18::/64 comment <span class="string">&quot;wireguard lan #允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 51820/udp</span><br><span class="line">sudo ufw allow from 10.8.0.0/24 comment <span class="string">&quot;wireguard lan&quot;</span></span><br><span class="line">sudo ufw allow from fd24:609a:6c18::/64 comment <span class="string">&quot;wireguard lan&quot;</span> <span class="comment">#允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
 <p>开机自启：</p>
