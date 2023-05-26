@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-27 05:13:21</span>
+        <span class="pc">2023-05-27 06:27:52</span>
     </span>
     
     
@@ -195,11 +195,11 @@
 <h2 id="选择私有-IPv4-和-IPv6-地址"><a href="#选择私有-IPv4-和-IPv6-地址" class="headerlink" title="选择私有 IPv4 和 IPv6 地址"></a>选择私有 IPv4 和 IPv6 地址</h2><h3 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h3><p>可选 IPv4 范围：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.0.0.0 to 10.255.255.255 (10/8 prefix)</span><br><span class="line">172.16.0.0 to 172.31.255.255 (172.16/12 prefix)</span><br><span class="line">192.168.0.0 to 192.168.255.255 (192.168/16 prefix)</span><br></pre></td></tr></table></figure>
 
-<p>本例使用 10.8.0.0&#x2F;32 地址段，服务端使用 10.8.0.1&#x2F;32</p>
-<h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>本例使用 fd24:609a:6c18::&#x2F;128 地址段，服务端使用 fd24:609a:6c18::1&#x2F;128</p>
+<p>本例使用 10.8.0.0&#x2F;24 地址段，服务端使用 10.8.0.1&#x2F;24</p>
+<h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>本例使用 fd24:609a:6c18::&#x2F;64 地址段，服务端使用 fd24:609a:6c18::1&#x2F;64</p>
 <h2 id="Wireguard-配置文件"><a href="#Wireguard-配置文件" class="headerlink" title="Wireguard 配置文件"></a>Wireguard 配置文件</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 私钥</span><br><span class="line">Address = 10.8.0.1/32, fd24:609a:6c18::1/128</span><br><span class="line">MTU = 1280</span><br><span class="line">ListenPort = 51820</span><br><span class="line">SaveConfig = true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 私钥</span><br><span class="line">Address = 10.8.0.1/24, fd24:609a:6c18::1/64</span><br><span class="line">MTU = 1280</span><br><span class="line">ListenPort = 51820</span><br><span class="line">SaveConfig = true</span><br></pre></td></tr></table></figure>
 <p>MTU: 默认为 1420，使用 IPv6 应改为 1280<br>ListenPort: 服务端的监听端口<br>SaveConfig: 改动是否保存至文件，选 true 之后直接修改配置文件前应先停止运行 Wireguard</p>
 <h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
 
@@ -228,7 +228,7 @@
 
 <h1 id="客户端（Peer）配置"><a href="#客户端（Peer）配置" class="headerlink" title="客户端（Peer）配置"></a>客户端（Peer）配置</h1><h2 id="生成客户端密钥"><a href="#生成客户端密钥" class="headerlink" title="生成客户端密钥"></a>生成客户端密钥</h2><p>安装 Wireguard 客户端，可用客户端生成密钥，或用与服务端相同方式生成</p>
 <h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>客户端配置文件格式与服务端的 wg0.conf 一致，文件名最好改为客户端专用名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 客户端私钥</span><br><span class="line">Address = 10.8.0.2/32, fd24:609a:6c18::2/128</span><br><span class="line">DNS = 119.29.29.29, 2402:4e00::</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = 服务端公钥</span><br><span class="line">AllowedIPs = 10.8.0.0/32, fd24:609a:6c18::/128</span><br><span class="line">Endpoint = 服务端IP或域名:服务端端口</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 客户端私钥</span><br><span class="line">Address = 10.8.0.2/24, fd24:609a:6c18::2/64</span><br><span class="line">DNS = 119.29.29.29, 2402:4e00::</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = 服务端公钥</span><br><span class="line">AllowedIPs = 10.8.0.0/24, fd24:609a:6c18::/64</span><br><span class="line">Endpoint = 服务端IP或域名:服务端端口</span><br></pre></td></tr></table></figure>
 <p>Address: 客户端 IP，新客户端最好递增最后一位数字<br>DNS: 可自行设置<br>AllowedIPs: 代理的流量范围，只代理通过指定 IP 段的流量，0.0.0.0&#x2F;0 代理所有 IPv4 流量，::&#x2F;0 代理所有 IPv6 流量</p>
 <h1 id="服务端添加客户端公钥"><a href="#服务端添加客户端公钥" class="headerlink" title="服务端添加客户端公钥"></a>服务端添加客户端公钥</h1><p>在服务端执行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wg <span class="built_in">set</span> wg0 peer 客户端公钥 allowed-ips 客户端IPv4,客户端IPv6 preshared-key psk</span><br></pre></td></tr></table></figure>
