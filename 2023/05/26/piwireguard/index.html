@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            Ubuntu 22.04 配置 Wireguard 并开启 IPv6 支持 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/fontawesome/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/css/brands.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","logo":"/images/logo.svg","favicon":"/images/logo.svg","avatar":"/images/avatar.svg","font_size":null,"font_family":null,"hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"header_transparent":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving.","font_color":null,"hitokoto":{"enable":false}},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":false,"style":"default"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.5.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"};
+  </script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/logo.svg">
+                </a>
+            
+            <a class="logo-title" href="/">
+               Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">Ubuntu 22.04 配置 Wireguard 并开启 IPv6 支持</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/avatar.svg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">Keep Team</span>
+                            
+                                <span class="author-label">Lv3</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-05-26 01:53:59</span>
+        <span class="mobile">2023-05-26 01:53</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-05-27 05:03:05</span>
+    </span>
+    
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                <p><a class="link"   target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-22-04" >https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-22-04<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h1><h2 id="服务端安装-Wireguard-并生成-key"><a href="#服务端安装-Wireguard-并生成-key" class="headerlink" title="服务端安装 Wireguard 并生成 key"></a>服务端安装 Wireguard 并生成 key</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install wireguard</span><br></pre></td></tr></table></figure>
+
+<p>生成私钥并调整权限，使只有 root 能访问 key 文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wg genkey | sudo <span class="built_in">tee</span> /etc/wireguard/private.key</span><br><span class="line">sudo <span class="built_in">chmod</span> go= /etc/wireguard/private.key</span><br></pre></td></tr></table></figure>
+<p>保存输出的内容用于之后的配置</p>
+<p>从私钥文件生成公钥</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span> /etc/wireguard/private.key | wg pubkey | sudo <span class="built_in">tee</span> /etc/wireguard/public.key</span><br></pre></td></tr></table></figure>
+<p>保存输出的公钥用于之后的配置</p>
+<p>生成 pre-shared key</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg genpsk &gt; psk</span><br></pre></td></tr></table></figure>
+<p>保存输出的预共享密钥于当前目录 psk 文件</p>
+<h2 id="选择私有-IPv4-和-IPv6-地址"><a href="#选择私有-IPv4-和-IPv6-地址" class="headerlink" title="选择私有 IPv4 和 IPv6 地址"></a>选择私有 IPv4 和 IPv6 地址</h2><h3 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h3><p>可选 IPv4 范围：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">10.0.0.0 to 10.255.255.255 (10/8 prefix)</span><br><span class="line">172.16.0.0 to 172.31.255.255 (172.16/12 prefix)</span><br><span class="line">192.168.0.0 to 192.168.255.255 (192.168/16 prefix)</span><br></pre></td></tr></table></figure>
+
+<p>本例使用 10.8.0.0&#x2F;32 地址段，服务端使用 10.8.0.1&#x2F;32</p>
+<h3 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h3><p>本例使用 fd24:609a:6c18::&#x2F;128 地址段，服务端使用 fd24:609a:6c18::1&#x2F;128</p>
+<h2 id="Wireguard-配置文件"><a href="#Wireguard-配置文件" class="headerlink" title="Wireguard 配置文件"></a>Wireguard 配置文件</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 私钥</span><br><span class="line">Address = 10.8.0.1/32, fd24:609a:6c18::1/128</span><br><span class="line">MTU = 1280</span><br><span class="line">ListenPort = 51820</span><br><span class="line">SaveConfig = true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>MTU: 默认为 1420，使用 IPv6 应改为 1280<br>ListenPort: 服务端的监听端口<br>SaveConfig: 改动是否保存至文件，选 true 之后直接修改配置文件前应先停止运行 Wireguard</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/sysctl.conf</span><br></pre></td></tr></table></figure>
+
+<p>添加或取消注释</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward=1</span><br><span class="line">net.ipv6.conf.all.forwarding=1</span><br></pre></td></tr></table></figure>
+
+<p>保存后</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h2 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h2><p>查看目前 interface</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip route list default</span><br></pre></td></tr></table></figure>
+<p>显示 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default via 192.168.0.1 dev eth0 proto dhcp src 192.168.0.100 metric 100</span><br></pre></td></tr></table></figure>
+<p>接口为 eth0</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
+
+<p>末尾添加以下内容配置流量转发</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+
+<p>打开服务端端口</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 51820/udp</span><br><span class="line">sudo ufw allow from 10.8.0.0/24 comment <span class="string">&quot;wireguard lan&quot;</span></span><br><span class="line">sudo ufw allow from fd24:609a:6c18::/64 comment <span class="string">&quot;wireguard lan #允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
+<p>开机自启：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
+
+<h1 id="客户端（Peer）配置"><a href="#客户端（Peer）配置" class="headerlink" title="客户端（Peer）配置"></a>客户端（Peer）配置</h1><h2 id="生成客户端密钥"><a href="#生成客户端密钥" class="headerlink" title="生成客户端密钥"></a>生成客户端密钥</h2><p>安装 Wireguard 客户端，可用客户端生成密钥，或用与服务端相同方式生成</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>客户端配置文件格式与服务端的 wg0.conf 一致，文件名最好改为客户端专用名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 客户端私钥</span><br><span class="line">Address = 10.8.0.2/32, fd24:609a:6c18::2/128</span><br><span class="line">DNS = 119.29.29.29, 2402:4e00::</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = 服务端公钥</span><br><span class="line">AllowedIPs = 10.8.0.0/32, fd24:609a:6c18::/128</span><br><span class="line">Endpoint = 服务端IP或域名:服务端端口</span><br></pre></td></tr></table></figure>
+<p>Address: 客户端 IP，新客户端最好递增最后一位数字<br>DNS: 可自行设置<br>AllowedIPs: 代理的流量范围，只代理通过指定 IP 段的流量，0.0.0.0&#x2F;0 代理所有 IPv4 流量，::&#x2F;0 代理所有 IPv6 流量</p>
+<h1 id="服务端添加客户端公钥"><a href="#服务端添加客户端公钥" class="headerlink" title="服务端添加客户端公钥"></a>服务端添加客户端公钥</h1><p>在服务端执行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wg <span class="built_in">set</span> wg0 peer 客户端公钥 allowed-ips 客户端IPv4,客户端IPv6 preshared-key psk</span><br></pre></td></tr></table></figure>
+<p>例如：sudo wg set wg0 peer 客户端公钥 allowed-ips 10.8.0.2,fd24:609a:6c18::2 preshared-key psk</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart  wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
+<p>即可保存配置</p>
+<p>启动客户端即可连接</p>
+<h1 id="查看服务端状态"><a href="#查看服务端状态" class="headerlink" title="查看服务端状态"></a>查看服务端状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wg</span><br></pre></td></tr></table></figure>
+            </div>
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/03/10/Ubuntu-22-04-%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8-openai-whisper/"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Ubuntu 22.04 安装使用 openai whisper</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2020</span> -
+            
+            2023
+            
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/">Keep Team</a>
+            
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.5.1</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

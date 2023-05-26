@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-25 14:19:46</span>
+        <span class="pc">2023-05-27 04:55:07</span>
     </span>
     
     
@@ -207,7 +207,7 @@
 <p>UFW 默认关闭，启用前打开 ssh 端口</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow ssh/tcp</span><br><span class="line">sudo ufw logging on</span><br></pre></td></tr></table></figure>
 <p>UFW 默认阻止传入，允许传出</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br><span class="line">sudo ufw allow from 10.88.31.0/24 comment <span class="string">&quot;wireguard lan&quot;</span> <span class="comment">#允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
 
 
             </div>
