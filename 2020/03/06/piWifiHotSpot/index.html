@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-04-08 11:29:35</span>
+        <span class="pc">2023-05-28 01:04:38</span>
     </span>
     
     
@@ -266,7 +266,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
 
 <p>设置 iptables</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 nat 表末尾添加 POSTROUTING 规则链，网络接口为 eth0，操作为进行 IP 伪装，将树莓派内网 IP 转化成外网 IP</span></span><br><span class="line">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line"><span class="comment"># 建立 eth0 和 wlan0 的相互转发</span></span><br><span class="line">sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 nat 表末尾添加 POSTROUTING 规则链，网络接口为 eth0，操作为进行 IP 伪装，将树莓派内网 IP 转化成外网 IP</span></span><br><span class="line">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">sudo ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line"><span class="comment"># 建立 eth0 和 wlan0 的相互转发</span></span><br><span class="line">sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br></pre></td></tr></table></figure>
 
 <p>至此已经可以直连上网</p>
 <h4 id="转发-Wi-Fi-流量至代理服务器"><a href="#转发-Wi-Fi-流量至代理服务器" class="headerlink" title="转发 Wi-Fi 流量至代理服务器"></a>转发 Wi-Fi 流量至代理服务器</h4><p>转发前需要忽略国内、局域网和代理服务器地址</p>

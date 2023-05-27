@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-27 06:27:52</span>
+        <span class="pc">2023-05-28 01:13:46</span>
     </span>
     
     
@@ -217,7 +217,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
 
 <p>末尾添加以下内容配置流量转发</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = ufw route allow in on eth0 out on wg0</span><br><span class="line">PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = ufw route delete allow in on eth0 out on wg0</span><br></pre></td></tr></table></figure>
 
 <p>打开服务端端口</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 51820/udp</span><br><span class="line">sudo ufw allow from 10.8.0.0/24 comment <span class="string">&quot;wireguard lan&quot;</span></span><br><span class="line">sudo ufw allow from fd24:609a:6c18::/64 comment <span class="string">&quot;wireguard lan&quot;</span> <span class="comment">#允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
