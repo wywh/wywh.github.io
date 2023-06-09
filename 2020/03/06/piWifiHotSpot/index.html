@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-28 01:04:38</span>
+        <span class="pc">2023-06-10 03:49:05</span>
     </span>
     
     
@@ -224,7 +224,8 @@
 <p>设置 hostapd 开机启动</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl unmask hostapd</span><br><span class="line">sudo systemctl start hostapd</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> hostapd</span><br></pre></td></tr></table></figure>
 
-<h3 id="启动-DHCP-服务"><a href="#启动-DHCP-服务" class="headerlink" title="启动 DHCP 服务"></a>启动 DHCP 服务</h3><h4 id="设置-Wi-Fi-设备-wlan0-的静态-IP"><a href="#设置-Wi-Fi-设备-wlan0-的静态-IP" class="headerlink" title="设置 Wi-Fi 设备 wlan0 的静态 IP"></a>设置 Wi-Fi 设备 wlan0 的静态 IP</h4><p>临时设置固定 IP</p>
+<h3 id="启动-DHCP-服务"><a href="#启动-DHCP-服务" class="headerlink" title="启动 DHCP 服务"></a>启动 DHCP 服务</h3><h4 id="设置-Wi-Fi-设备-wlan0-的静态-IP"><a href="#设置-Wi-Fi-设备-wlan0-的静态-IP" class="headerlink" title="设置 Wi-Fi 设备 wlan0 的静态 IP"></a>设置 Wi-Fi 设备 wlan0 的静态 IP</h4><p>设置 wlan0 IP 为<br>192.168.10.1&#x2F;24<br>fd12:3456:789a:bcde::1&#x2F;24</p>
+<p>临时设置固定 IP</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr add 192.168.10.1/24 dev wlan0</span><br></pre></td></tr></table></figure>
 
 <p>稍后将此命令加入开机启动</p>
@@ -245,7 +246,7 @@
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/dhcp/dhcpd6.conf</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 修改</span><br><span class="line">option dhcp6.name-servers ::1,2400:3200::1;</span><br><span class="line"># 末尾加入</span><br><span class="line">subnet6 2001:db8:1::/48 &#123;</span><br><span class="line">     range6 2001:db8:1::2 2001:db8:1::ff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 修改</span><br><span class="line">option dhcp6.name-servers fd12:3456:789a:bcde::1, 2402:4e00::;</span><br><span class="line"># 末尾加入</span><br><span class="line">subnet6 2001:db8:1::/48 &#123;</span><br><span class="line">     range6 2001:db8:1::2 2001:db8:1::ff;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -266,7 +267,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
 
 <p>设置 iptables</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 nat 表末尾添加 POSTROUTING 规则链，网络接口为 eth0，操作为进行 IP 伪装，将树莓派内网 IP 转化成外网 IP</span></span><br><span class="line">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">sudo ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line"><span class="comment"># 建立 eth0 和 wlan0 的相互转发</span></span><br><span class="line">sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在 nat 表末尾添加 POSTROUTING 规则链，网络接口为 eth0，操作为进行 IP 伪装，将树莓派内网 IP 转化成外网 IP</span></span><br><span class="line">sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">sudo ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line"><span class="comment"># 建立 eth0 和 wlan0 的相互转发</span></span><br><span class="line">sudo ufw route allow <span class="keyword">in</span> on wlan0 out on eth0</span><br><span class="line">sudo ufw route allow <span class="keyword">in</span> on eth0 out on wlan0</span><br></pre></td></tr></table></figure>
 
 <p>至此已经可以直连上网</p>
 <h4 id="转发-Wi-Fi-流量至代理服务器"><a href="#转发-Wi-Fi-流量至代理服务器" class="headerlink" title="转发 Wi-Fi 流量至代理服务器"></a>转发 Wi-Fi 流量至代理服务器</h4><p>转发前需要忽略国内、局域网和代理服务器地址</p>
@@ -282,7 +283,7 @@
 <p>现在已经可以自动代理上网</p>
 <h4 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/iprestore.sh</span><br></pre></td></tr></table></figure>
 <p>添加</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr add 192.168.10.1/24 dev wlan0</span><br><span class="line">sudo ip addr add 2001:db8:1::1/48 dev wlan0</span><br><span class="line">sudo ipset restore &lt; /etc/chnroute.ipset</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ip addr add 192.168.10.1/24 dev wlan0</span><br><span class="line">sudo ip addr add fd12:3456:789a:bcde::1/64 dev wlan0</span><br><span class="line">sudo ipset restore &lt; /etc/chnroute.ipset</span><br></pre></td></tr></table></figure>
 
 <p>然后添加所有以上所有 iptables 指令</p>
 <p>指定 systemd 启动顺序确保成功设置 wlan0 的 IP，且其他相关服务在此之后启动</p>
@@ -294,7 +295,6 @@
 
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
 <li>chnroute 更新频率低耗时长，所以选择不自动更新，有需要时手动更新</li>
-<li>目前连接热点的设备不能访问 IPv6</li>
 <li>如果连接 Wi-Fi 的设备自行设置了 DNS，则不会使用树莓派的 DNS</li>
 </ul>
 

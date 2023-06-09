@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-29 11:59:57</span>
+        <span class="pc">2023-06-10 03:37:31</span>
     </span>
     
     
@@ -217,7 +217,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/wireguard/wg0.conf</span><br></pre></td></tr></table></figure>
 
 <p>末尾添加以下内容配置流量转发</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = ufw route allow in on eth0 out on wg0</span><br><span class="line">PostUp = iptables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = ufw route delete allow in on eth0 out on wg0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Postup = sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">Postup = sudo ip6tables -t nat -I POSTROUTING -o eth0 -j MASQUERADE</span><br><span class="line">PostUp = ufw route allow in on wg0 out on eth0</span><br><span class="line">PostUp = ufw route allow in on eth0 out on wg0</span><br><span class="line">PreDown = ufw route delete allow in on wg0 out on eth0</span><br><span class="line">PreDown = ufw route delete allow in on eth0 out on wg0</span><br></pre></td></tr></table></figure>
 
 <p>打开服务端端口</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow 51820/udp</span><br><span class="line">sudo ufw allow from 10.8.0.0/24 comment <span class="string">&quot;wireguard lan&quot;</span></span><br><span class="line">sudo ufw allow from fd24:609a:6c18::/64 comment <span class="string">&quot;wireguard lan&quot;</span> <span class="comment">#允许 wireguard 局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
@@ -228,13 +228,17 @@
 
 <h1 id="客户端（Peer）配置"><a href="#客户端（Peer）配置" class="headerlink" title="客户端（Peer）配置"></a>客户端（Peer）配置</h1><h2 id="生成客户端密钥"><a href="#生成客户端密钥" class="headerlink" title="生成客户端密钥"></a>生成客户端密钥</h2><p>安装 Wireguard 客户端，可用客户端生成密钥，或用与服务端相同方式生成</p>
 <h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>客户端配置文件格式与服务端的 wg0.conf 一致，文件名最好改为客户端专用名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 客户端私钥</span><br><span class="line">Address = 10.8.0.2/24, fd24:609a:6c18::2/64</span><br><span class="line">DNS = 119.29.29.29, 2402:4e00::</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = 服务端公钥</span><br><span class="line">AllowedIPs = 10.8.0.0/24, fd24:609a:6c18::/64</span><br><span class="line">Endpoint = 服务端IP或域名:服务端端口</span><br></pre></td></tr></table></figure>
-<p>Address: 客户端 IP，新客户端最好递增最后一位数字<br>DNS: 可自行设置<br>AllowedIPs: 代理的流量范围，只代理通过指定 IP 段的流量，0.0.0.0&#x2F;0 代理所有 IPv4 流量，::&#x2F;0 代理所有 IPv6 流量</p>
-<h1 id="服务端添加客户端公钥"><a href="#服务端添加客户端公钥" class="headerlink" title="服务端添加客户端公钥"></a>服务端添加客户端公钥</h1><p>在服务端执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = 客户端私钥</span><br><span class="line">Address = 10.8.0.2/32, fd24:609a:6c18::2/128</span><br><span class="line">DNS = 119.29.29.29, 2402:4e00::</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = 服务端公钥</span><br><span class="line">AllowedIPs = 0.0.0.0/0, ::/0</span><br><span class="line">Endpoint = 服务端IP或域名:服务端端口</span><br></pre></td></tr></table></figure>
+<p>Address: 客户端 IP，新客户端最好递增最后一位数字<br>DNS: 可自行设置<br>AllowedIPs: 代理的客户端流量范围，只代理通过指定 IP 段的流量，0.0.0.0&#x2F;0 代理所有 IPv4 流量，::&#x2F;0 代理所有 IPv6 流量</p>
+<h1 id="服务端添加客户端公钥"><a href="#服务端添加客户端公钥" class="headerlink" title="服务端添加客户端公钥"></a>服务端添加客户端公钥</h1><p>如果服务端有配置 SaveConfig &#x3D; true ，在服务端执行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wg <span class="built_in">set</span> wg0 peer 客户端公钥 allowed-ips 客户端IPv4,客户端IPv6 preshared-key psk</span><br></pre></td></tr></table></figure>
 <p>例如：sudo wg set wg0 peer 客户端公钥 allowed-ips 10.8.0.2,fd24:609a:6c18::2 preshared-key psk</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart  wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart wg-quick@wg0.service</span><br></pre></td></tr></table></figure>
 <p>即可保存配置</p>
+<p>保存后服务端配置文件多出的内容:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[Peer]</span><br><span class="line">PublicKey = 客户端公钥</span><br><span class="line">PresharedKey = 预共享密钥</span><br><span class="line">AllowedIPs = 10.8.0.2/32, fd24:609a:6c18::2/128</span><br></pre></td></tr></table></figure>
+
+<p>如果服务端未配置 SaveConfig &#x3D; true ，手动将以上内容添加至服务端配置文件末尾</p>
 <p>启动客户端即可连接</p>
 <h1 id="查看服务端状态"><a href="#查看服务端状态" class="headerlink" title="查看服务端状态"></a>查看服务端状态</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wg</span><br></pre></td></tr></table></figure>
             </div>
