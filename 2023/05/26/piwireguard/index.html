@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-07-08 17:25:54</span>
+        <span class="pc">2023-07-08 17:29:53</span>
     </span>
     
     
@@ -189,7 +189,7 @@
 <p>从私钥文件生成公钥</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cat</span> /etc/wireguard/private.key | wg pubkey | sudo <span class="built_in">tee</span> /etc/wireguard/public.key</span><br></pre></td></tr></table></figure>
 <p>保存输出的公钥用于之后的配置</p>
-<p>生成 pre-shared key</p>
+<p>生成 pre-shared key, 每个 peer 单独生成</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wg genpsk &gt; psk</span><br></pre></td></tr></table></figure>
 <p>保存输出的预共享密钥于当前目录 psk 文件</p>
 <h2 id="选择私有-IPv4-和-IPv6-地址"><a href="#选择私有-IPv4-和-IPv6-地址" class="headerlink" title="选择私有 IPv4 和 IPv6 地址"></a>选择私有 IPv4 和 IPv6 地址</h2><h3 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h3><p>可选 IPv4 范围：</p>
