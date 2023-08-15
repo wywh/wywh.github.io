@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-18 00:42:03</span>
+        <span class="pc">2023-08-15 12:47:24</span>
     </span>
     
     
@@ -202,7 +202,8 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>树莓派需要进行公网的文件分享，对比各种文件共享协议后发现 Samba 跨平台较好，但只适合局域网，FTP 不安全，SFTP 不适合做文件服务器，所以选择 WebDAV + Samba 满足各种需求，先安装 WebDAV</p>
+                <p>更新：nginx-dav-ext-module 已不支持最新版 Nginx</p>
+<p>树莓派需要进行公网的文件分享，对比各种文件共享协议后发现 Samba 跨平台较好，但只适合局域网，FTP 不安全，SFTP 不适合做文件服务器，所以选择 WebDAV + Samba 满足各种需求，先安装 WebDAV</p>
 <h2 id="安装-Nginx"><a href="#安装-Nginx" class="headerlink" title="安装 Nginx"></a>安装 Nginx</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>通过 Nginx 插件方式安装，Nginx 安装需要编译，为实现 WebDAV 的 PROPFIND,OPTIONS,LOCK,UNLOCK 功能可以下载 nginx-dav-ext-module</p>
 <p>Nginx 下载：<a class="link"   target="_blank" rel="noopener" href="https://nginx.org/en/download.html" >https://nginx.org/en/download.html<i class="fas fa-external-link-alt"></i></a></p>
 <p>nginx-dav-ext-module:</p>
@@ -233,8 +234,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl start nginx</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> nginx</span><br></pre></td></tr></table></figure>
 
 
-
-<h2 id="添加模块"><a href="#添加模块" class="headerlink" title="添加模块"></a>添加模块</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop nginx</span><br></pre></td></tr></table></figure>
+<h1 id="以下内容已废弃"><a href="#以下内容已废弃" class="headerlink" title="以下内容已废弃"></a>以下内容已废弃</h1><h2 id="添加模块"><a href="#添加模块" class="headerlink" title="添加模块"></a>添加模块</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop nginx</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 $(nginx -V) 替换成执行 nginx -V 后输出的 configure arguments</span></span><br><span class="line">./configure --add-module=/home/ubuntu/nginxmodules/nginx-dav-ext-module $(nginx -V)</span><br></pre></td></tr></table></figure>
 
