@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-08-15 13:41:54</span>
+        <span class="pc">2023-08-15 15:47:37</span>
     </span>
     
     
@@ -228,7 +228,7 @@
 <li><p>ffmpeg 推流 h264 的 mp4 文件:</p>
 </li>
 </ul>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rtmp 播放与推流地址相同</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/rtmpapp/teststream</span><br><span class="line"><span class="comment"># hls 推流地址如下，播放地址 https://localhost:8080/hls/teststream.m3u8</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/hlsapp/teststream</span><br><span class="line"><span class="comment"># dash 推流地址如下，播放地址 https://localhost:8080/dash/teststream.mpd</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/dashapp/teststream</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rtmp 播放与推流地址相同</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/rtmpapp/teststream</span><br><span class="line"><span class="comment"># hls 推流地址如下，播放地址 localhost:8080/hls/teststream.m3u8</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/hlsapp/teststream</span><br><span class="line"><span class="comment"># dash 推流地址如下，播放地址 localhost:8080/dash/teststream.mpd</span></span><br><span class="line">ffmpeg -re -i test.mp4 -c copy -f flv rtmp://localhost:1935/dashapp/teststream</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>OBS 推流需要将服务器地址为 rtmp:&#x2F;&#x2F;ip:1935&#x2F;hlsapp&#x2F; ，密钥为后缀，如 teststream</li>
