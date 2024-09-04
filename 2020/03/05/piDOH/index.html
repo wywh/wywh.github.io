@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器 |
+            树莓派 4B  Ubuntu 24.04 搭建本地 DNS 服务器 SmartDNS |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B  Ubuntu 19 使用 dnscrypt-proxy 搭建 DNS over HTTPS (DoH) 服务器</span>
+                <span class="title-hover-animation">树莓派 4B  Ubuntu 24.04 搭建本地 DNS 服务器 SmartDNS</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2021-04-08 10:39:50</span>
+        <span class="pc">2024-09-04 11:19:48</span>
     </span>
     
     
@@ -202,33 +202,24 @@
             
 
             <div class="article-content keep-markdown-body">
-                <p>树莓派上运行 DoH 客户端，加密局域网设备的 DNS 请求，为下一步将树莓派开启热点，作为网关运行透明代理服务作准备</p>
-<h1 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h1><p>Linux 的 DNS 服务器由 &#x2F;etc&#x2F;resolv.conf 文件指定，Ubuntu 18.04+ 的 DNS 和桥接等功能默认在 netplan 设置并由 systemd-resolved 管理，这个程序会在 127.0.0.53:53 运行一个 DNS 服务并在每次开机时修改 resolv.conf，所以不能直接修改 resolv.conf 来改变 DNS 服务器。完成后的效果：</p>
+                <p>树莓派上搭建本地的 DNS 服务器，提高局域网设备网络访问速度，为下一步将树莓派开启热点，作为网关运行透明代理服务作准备</p>
+<h1 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h1><p>Linux 的 DNS 服务器由 &#x2F;etc&#x2F;resolv.conf 文件指定，Ubuntu 18.04+ 的 DNS 和桥接等功能默认由用户在 netplan 设置后由 systemd-resolved 自动管理，这个程序会在 127.0.0.53:53 运行一个 DNS 服务并在每次开机时修改 resolv.conf，用户不能直接修改 resolv.conf 来改变 DNS 服务器。完成后的效果：</p>
 <ul>
-<li>dnscrypt-proxy 使用 DoH 请求 Cloudflare 的 DoH 服务并监听 127.0.0.1:53 和树莓派在局域网上的地址</li>
+<li>SmartDNS 监听 127.0.0.1:53 和树莓派在局域网上的地址</li>
 <li>用 netplan 将本地 DNS 服务器指向 127.0.0.1:53</li>
 </ul>
-<h1 id="安装运行-dnscrypt-proxy"><a href="#安装运行-dnscrypt-proxy" class="headerlink" title="安装运行 dnscrypt-proxy"></a>安装运行 dnscrypt-proxy</h1><h3 id="安装-2-x-版本-dnscrypt-proxy"><a href="#安装-2-x-版本-dnscrypt-proxy" class="headerlink" title="安装 2.x 版本 dnscrypt-proxy"></a>安装 2.x 版本 dnscrypt-proxy</h3><p>Ubuntu 18.10 + 的 APT 源已自带但配置复杂，所以直接下载</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/jedisct1/dnscrypt-proxy/releases/latest">https://github.com/jedisct1/dnscrypt-proxy/releases/latest</a></p>
-<p>解压后复制 dnscrypt-proxy 到 &#x2F;usr&#x2F;local&#x2F;bin</p>
-<p>修改配置加入 Cloudflare ipv6 解析，监听地址为本地、局域网、后续开启热点的地址</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可将默认配置复制后修改</span></span><br><span class="line">sudo vim /etc/dnscrypt-proxy/dnscrypt-proxy.toml </span><br></pre></td></tr></table></figure>
+<h1 id="安装运行-SmartDNS"><a href="#安装运行-SmartDNS" class="headerlink" title="安装运行 SmartDNS"></a>安装运行 SmartDNS</h1><h3 id="安装-SmartDNS"><a href="#安装-SmartDNS" class="headerlink" title="安装 SmartDNS"></a>安装 SmartDNS</h3><p>64 位系统下载 aarch64-debian-all.deb<br><a class="link"   target="_blank" rel="noopener" href="https://github.com/pymumu/smartdns/releases" >https://github.com/pymumu/smartdns/releases<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i smartdns.1.yyyy.MM.dd-REL.arm-debian-all.deb</span><br></pre></td></tr></table></figure>
 
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/smartdns/smartdns.conf</span><br></pre></td></tr></table></figure>
+<p>配置教程<br><a class="link"   target="_blank" rel="noopener" href="https://pymumu.github.io/smartdns/config/basic-config/" >https://pymumu.github.io/smartdns/config/basic-config/<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> smartdns</span><br><span class="line">sudo systemctl start smartdns</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server_names = [&#x27;cloudflare&#x27;, &#x27;cloudflare-ipv6&#x27;]</span><br><span class="line">listen_addresses = [&#x27;127.0.0.1:53&#x27;,&#x27;192.168.0.100:53&#x27;,&#x27;192.168.10.1:53&#x27;,&#x27;[::1]:53&#x27;]</span><br><span class="line">doh_servers = true</span><br><span class="line"># 设置代理</span><br><span class="line">proxy = &#x27;socks5://127.0.0.1:9050&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 树莓派执行</span></span><br><span class="line">dig google.com @127.0.0.1 | grep SERVER</span><br><span class="line"><span class="comment"># 在局域网中其他电脑执行</span></span><br><span class="line">dig google.com @局域网树莓派地址 | grep SERVER</span><br></pre></td></tr></table></figure>
 
-<p>检查</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml </span><br><span class="line"><span class="comment"># 树莓派执行</span></span><br><span class="line">dig google.com @127.0.0.1 | grep SERVER</span><br><span class="line"><span class="comment"># 在局域网中其他电脑执行</span></span><br><span class="line">dig google.com @192.168.0.10 | grep SERVER</span><br></pre></td></tr></table></figure>
-
-<p>返回结果说明 dnscrypt-proxy 能正常解析并监听</p>
-<h3 id="设置开机运行"><a href="#设置开机运行" class="headerlink" title="设置开机运行"></a>设置开机运行</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/dnscrypt-proxy.service</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=dnscrypt-proxy</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">ExecStart=dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start dnscrypt-proxy.service</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> dnscrypt-proxy.service</span><br></pre></td></tr></table></figure>
-
+<p>返回结果说明能正常解析并监听</p>
 <h1 id="修改-DNS-服务器地址"><a href="#修改-DNS-服务器地址" class="headerlink" title="修改 DNS 服务器地址"></a>修改 DNS 服务器地址</h1><p>成功后即可将其他电脑或路由器的 DNS 改为树莓派地址</p>
-<p>Ubuntu 19 通过 netplan 修改 DNS 地址，可选择同时指定 IPv6 DNS 地址</p>
+<p>树莓派可通过 netplan 修改自身 DNS 地址，可选择同时指定 IPv6 DNS 地址</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/netplan/*.yaml /etc/netplan/*.yaml.bak.bak</span><br><span class="line">sudo vim /etc/netplan/*.yaml</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">network:</span><br><span class="line">    ethernets:</span><br><span class="line">        eth0:</span><br><span class="line">            dhcp4: no  </span><br><span class="line">            optional: true</span><br><span class="line">            addresses:</span><br><span class="line">                - 192.168.0.10/24</span><br><span class="line">                - &quot;fe80::dea6:32ff:fe24:fc57/24&quot;</span><br><span class="line">            gateway4: 192.168.0.1</span><br><span class="line">            nameservers:</span><br><span class="line">                    addresses: [127.0.0.1, 119.29.29.29, &quot;::1&quot;, &quot;2400:3200::1&quot;]</span><br></pre></td></tr></table></figure>
@@ -313,7 +304,7 @@
             
                 <span>2020</span> -
             
-            2023
+            2024
             
                 &nbsp;<i class="fas fa-heart icon-animate"></i>
                 &nbsp;<a href="/">Keep Team</a>

@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-08-15 19:16:25</span>
+        <span class="pc">2024-06-21 15:59:06</span>
     </span>
     
     
@@ -236,7 +236,7 @@
 <h2 id="内存挂载成硬盘作为缓存"><a href="#内存挂载成硬盘作为缓存" class="headerlink" title="内存挂载成硬盘作为缓存"></a>内存挂载成硬盘作为缓存</h2><p> 为防止 HLS 缓存大量读写影响存储卡寿命，可以用把部分内存虚拟成硬盘，缓存数据放在内存中</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将内存分配到 /memtmp，最大分配 200MB</span><br><span class="line">tmpfs    /memtmp      tmpfs  size=200m    0   0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将内存分配到 /memtmp，最大分配 200MB</span><br><span class="line">tmpfs    /memtmp      tmpfs  size=200m,mode=0777    0   0</span><br></pre></td></tr></table></figure>
 
 <p>重启后生效<br>测试</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=/memtmp/test bs=8k count=10000 <span class="comment">#553 MB/s</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/memtmp/test bs=8k count=10000 of=/dev/null  <span class="comment">#1.4 GB/s</span></span><br></pre></td></tr></table></figure>
@@ -313,7 +313,7 @@
             
                 <span>2020</span> -
             
-            2023
+            2024
             
                 &nbsp;<i class="fas fa-heart icon-animate"></i>
                 &nbsp;<a href="/">Keep Team</a>
