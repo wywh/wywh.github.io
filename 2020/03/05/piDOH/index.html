@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2024-09-04 11:19:48</span>
+        <span class="pc">2024-09-04 12:37:42</span>
     </span>
     
     
@@ -203,7 +203,7 @@
 
             <div class="article-content keep-markdown-body">
                 <p>树莓派上搭建本地的 DNS 服务器，提高局域网设备网络访问速度，为下一步将树莓派开启热点，作为网关运行透明代理服务作准备</p>
-<h1 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h1><p>Linux 的 DNS 服务器由 &#x2F;etc&#x2F;resolv.conf 文件指定，Ubuntu 18.04+ 的 DNS 和桥接等功能默认由用户在 netplan 设置后由 systemd-resolved 自动管理，这个程序会在 127.0.0.53:53 运行一个 DNS 服务并在每次开机时修改 resolv.conf，用户不能直接修改 resolv.conf 来改变 DNS 服务器。完成后的效果：</p>
+<p>完成后的效果：</p>
 <ul>
 <li>SmartDNS 监听 127.0.0.1:53 和树莓派在局域网上的地址</li>
 <li>用 netplan 将本地 DNS 服务器指向 127.0.0.1:53</li>
@@ -211,9 +211,17 @@
 <h1 id="安装运行-SmartDNS"><a href="#安装运行-SmartDNS" class="headerlink" title="安装运行 SmartDNS"></a>安装运行 SmartDNS</h1><h3 id="安装-SmartDNS"><a href="#安装-SmartDNS" class="headerlink" title="安装 SmartDNS"></a>安装 SmartDNS</h3><p>64 位系统下载 aarch64-debian-all.deb<br><a class="link"   target="_blank" rel="noopener" href="https://github.com/pymumu/smartdns/releases" >https://github.com/pymumu/smartdns/releases<i class="fas fa-external-link-alt"></i></a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i smartdns.1.yyyy.MM.dd-REL.arm-debian-all.deb</span><br></pre></td></tr></table></figure>
 
-<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/smartdns/smartdns.conf</span><br></pre></td></tr></table></figure>
-<p>配置教程<br><a class="link"   target="_blank" rel="noopener" href="https://pymumu.github.io/smartdns/config/basic-config/" >https://pymumu.github.io/smartdns/config/basic-config/<i class="fas fa-external-link-alt"></i></a></p>
-<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> smartdns</span><br><span class="line">sudo systemctl start smartdns</span><br></pre></td></tr></table></figure>
+<h4 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h4><p>查看默认配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/smartdns/smartdns.conf |grep <span class="string">&#x27;^[^#|^;]&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>修改配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/smartdns/smartdns.conf</span><br></pre></td></tr></table></figure>
+<p>首先需要手动指定上游服务器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server 1.1.1.1</span><br></pre></td></tr></table></figure>
+<p>详细配置教程<br><a class="link"   target="_blank" rel="noopener" href="https://pymumu.github.io/smartdns/config/basic-config/" >https://pymumu.github.io/smartdns/config/basic-config/<i class="fas fa-external-link-alt"></i></a></p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>Ubuntu 系统 systemd-resolved 会占用 53 端口，通过关闭 systemd-resolved 解决</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop systemd-resolved</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> systemd-resolved</span><br></pre></td></tr></table></figure>
+<p>启动 SmartDNS 并开机自动运行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> smartdns</span><br><span class="line">sudo systemctl start smartdns</span><br></pre></td></tr></table></figure>
 
 <h4 id="检查"><a href="#检查" class="headerlink" title="检查"></a>检查</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 树莓派执行</span></span><br><span class="line">dig google.com @127.0.0.1 | grep SERVER</span><br><span class="line"><span class="comment"># 在局域网中其他电脑执行</span></span><br><span class="line">dig google.com @局域网树莓派地址 | grep SERVER</span><br></pre></td></tr></table></figure>
 
