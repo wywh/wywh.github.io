@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2024-09-05 05:09:43</span>
+        <span class="pc">2024-09-11 05:24:27</span>
     </span>
     
     
@@ -219,7 +219,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server 1.1.1.1</span><br></pre></td></tr></table></figure>
 <p>详细配置教程<br><a class="link"   target="_blank" rel="noopener" href="https://pymumu.github.io/smartdns/config/basic-config/" >https://pymumu.github.io/smartdns/config/basic-config/<i class="fas fa-external-link-alt"></i></a></p>
 <h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>Ubuntu 系统 systemd-resolved 会占用 53 端口，通过关闭 systemd-resolved 解决</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop systemd-resolved</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> systemd-resolved</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop systemd-resolved</span><br><span class="line">sudo systemctl <span class="built_in">disable</span> systemd-resolved</span><br><span class="line">sudo systemctl mask systemd-resolved</span><br></pre></td></tr></table></figure>
 <p>启动 SmartDNS 并开机自动运行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> smartdns</span><br><span class="line">sudo systemctl start smartdns</span><br></pre></td></tr></table></figure>
 

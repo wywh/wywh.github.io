@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B + Ubuntu 19 用 UFW 管理防火墙 |
+            树莓派 5 + Ubuntu 24 用 UFW 管理防火墙 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B + Ubuntu 19 用 UFW 管理防火墙</span>
+                <span class="title-hover-animation">树莓派 5 + Ubuntu 24 用 UFW 管理防火墙</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-05-27 04:55:07</span>
+        <span class="pc">2024-09-10 18:06:46</span>
     </span>
     
     
@@ -203,11 +203,11 @@
 
             <div class="article-content keep-markdown-body">
                 <p>Linux 真正的防火墙是 iptables，<a class="link"   target="_blank" rel="noopener" href="https://help.ubuntu.com/community/UFW" >UFW<i class="fas fa-external-link-alt"></i></a> (Uncomplicated Firewall) </p>
-<p>是为 Ubuntu 开发的 iptables 管理器，Ubuntu 19.10 自带版本 0.36-1ubuntu3</p>
+<p>是为 Ubuntu 开发的 iptables 管理器</p>
 <p>UFW 默认关闭，启用前打开 ssh 端口</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow ssh/tcp</span><br><span class="line">sudo ufw logging on</span><br></pre></td></tr></table></figure>
 <p>UFW 默认阻止传入，允许传出</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw status verbose</span><br><span class="line">sudo ufw allow 53 <span class="comment">#打开 53 端口 tcp 和 udp</span></span><br><span class="line">sudo ufw delete allow 53 <span class="comment">#删除指定规则</span></span><br><span class="line">sudo ufw allow from 192.168.0.0/24 to any <span class="comment">#允许局域网连接所用端口</span></span><br><span class="line">sudo ufw app list <span class="comment"># 适配app列表</span></span><br></pre></td></tr></table></figure>
 
 
             </div>

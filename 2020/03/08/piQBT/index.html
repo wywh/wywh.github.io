@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 22.04 安装 qBittorrent Enhanced Edition 作为下载机 |
+            树莓派 5 Ubuntu 24.04 安装 qBittorrent Enhanced Edition 作为下载机 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 22.04 安装 qBittorrent Enhanced Edition 作为下载机</span>
+                <span class="title-hover-animation">树莓派 5 Ubuntu 24.04 安装 qBittorrent Enhanced Edition 作为下载机</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-23 21:08:27</span>
+        <span class="pc">2024-09-10 16:39:09</span>
     </span>
     
     
@@ -208,10 +208,12 @@
 
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装 CLI 版本的 qbittorrent-enhanced-nox</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:poplite/qbittorrent-enhanced</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install qbittorrent-enhanced-nox</span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start qbittorrent-enhanced-nox</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> qbittorrent-enhanced-nox</span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start qbittorrent-enhanced-nox@用户名</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> qbittorrent-enhanced-nox@用户名</span><br></pre></td></tr></table></figure>
 
 <p>默认运行用户为 qbtuser<br>配置文件路径为 &#x2F;home&#x2F;qbtuser&#x2F;.config&#x2F;qBittorrent</p>
-<p>默认浏览器访问路径 localhost:8080<br>用户名 admin<br>密码 adminadmin</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl status qbittorrent-enhanced-nox@用户名</span><br></pre></td></tr></table></figure>
+<p>首次开启在 log 中寻找初始密码，登陆后立即修改</p>
+<p>默认浏览器访问路径 localhost:8080</p>
 <h2 id="设置-Nginx-反向代理-qBittorrent"><a href="#设置-Nginx-反向代理-qBittorrent" class="headerlink" title="设置 Nginx 反向代理 qBittorrent"></a>设置 Nginx 反向代理 qBittorrent</h2><p>Nginx 配置文件的 server 中加入</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /qbt/ &#123; </span><br><span class="line">	# 修改成本地端口</span><br><span class="line">    proxy_pass http://127.0.0.1:8008/;</span><br><span class="line">    proxy_http_version      1.1;</span><br><span class="line">    # domain:port 修改成域名:端口</span><br><span class="line">    proxy_set_header        X-Forwarded-Host        domain:port;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

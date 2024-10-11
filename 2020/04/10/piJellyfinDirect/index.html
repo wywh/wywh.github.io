@@ -9,7 +9,7 @@
     
     <title>
         
-            树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速 |
+            树莓派 5 Ubuntu 24.04 64bit 直接安装 Jellyfin 并开启硬件加速 |
         
         Keep Theme
     </title>
@@ -134,7 +134,7 @@
         <div class="article-content-container">
 
             <div class="article-title">
-                <span class="title-hover-animation">树莓派 4B Ubuntu 22.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
+                <span class="title-hover-animation">树莓派 5 Ubuntu 24.04 64bit 直接安装 Jellyfin 并开启硬件加速</span>
             </div>
 
             
@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2022-11-17 02:26:31</span>
+        <span class="pc">2024-09-10 16:40:54</span>
     </span>
     
     
@@ -203,13 +203,9 @@
 
             <div class="article-content keep-markdown-body">
                 <h2 id="安装-Jellyfin"><a href="#安装-Jellyfin" class="headerlink" title="安装 Jellyfin"></a>安装 Jellyfin</h2><p>按官方教程安装</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://jellyfin.org/docs/general/administration/installing.html#ubuntu" >https://jellyfin.org/docs/general/administration/installing.html#ubuntu<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://jellyfin.org/downloads/server" >https://jellyfin.org/downloads/server<i class="fas fa-external-link-alt"></i></a></p>
 <h2 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h2><p>使用树莓派硬件支持的 V4L2</p>
 <p>在 Jellyfin 仪表板的“播放”选项卡上的“硬件加速”选择 Video4Linux2(V4L2)</p>
-<p>添加权限</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG video jellyfin</span><br><span class="line">sudo systemctl restart jellyfin</span><br></pre></td></tr></table></figure>
-
-<p>经测试，服务端解码可流畅播放 60 Mbps H264 视频</p>
 
             </div>
 
